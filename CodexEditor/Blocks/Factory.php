@@ -39,7 +39,7 @@ class Factory {
              * Getting block
              * @var $blockClass - Block Class
              */
-            $blockClass = "CodexEditor\\Entry\\Block\\" . $type;
+            $blockClass = "CodexEditor\\Blocks\\" . $type;
 
             if (class_exists($blockClass)) {
 

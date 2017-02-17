@@ -2,8 +2,8 @@
 
 namespace CodexEditor\Blocks;
 
-use HTMLPurifier;
-use CodexEditor\Blocks\Interfaces\HTMLPurifyable;
+use \HTMLPurifier;
+use \CodexEditor\Blocks\Interfaces\HTMLPurifyable;
 
 abstract class Base {
 

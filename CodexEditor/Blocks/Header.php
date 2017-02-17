@@ -2,7 +2,7 @@
 
 namespace CodexEditor\Blocks;
 
-use \CodexEditor\Entry\Block\Interfaces\HTMLPurifyable;
+use \CodexEditor\Blocks\Interfaces\HTMLPurifyable;
 use \HTMLPurifier;
 
 class Header extends Base implements HTMLPurifyable

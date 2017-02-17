@@ -2,6 +2,8 @@
 
 namespace CodexEditor\Entry;
 
+use \CodexEditor\Blocks\Factory;
+
 class Structure {
 
     /**

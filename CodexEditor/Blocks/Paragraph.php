@@ -1,8 +1,8 @@
 <?php
 
-namespace CodexEditor\Entry\Block;
+namespace CodexEditor\Blocks;
 
-use \CodexEditor\Entry\Block\Interfaces\HTMLPurifyable;
+use \CodexEditor\Blocks\Interfaces\HTMLPurifyable;
 use \HTMLPurifier;
 
 class Paragraph extends Base implements HTMLPurifyable {

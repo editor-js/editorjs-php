@@ -1,6 +1,6 @@
 <?php
 
-namespace CodexEditor\Entry\Block;
+namespace CodexEditor\Blocks;
 
 use \CodexEditor\Entry\Block\Interfaces\HTMLPurifyable;
 use \HTMLPurifier;

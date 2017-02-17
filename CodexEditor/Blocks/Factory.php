@@ -1,8 +1,8 @@
 <?php
 
-namespace CodexEditor\Entry;
+namespace CodexEditor\Blocks;
 
-use CodexEditor\Entry\Block\Base;
+use CodexEditor\Blocks\Base;
 
 class Factory {
 
@@ -42,7 +42,7 @@ class Factory {
             $blockClass = "CodexEditor\\Entry\\Block\\" . $type;
 
             if (class_exists($blockClass)) {
-                
+
                 /** Call Base Class constructor */
                 $block = new $blockClass($data);
 

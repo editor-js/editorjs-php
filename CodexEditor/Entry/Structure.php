@@ -1,6 +1,6 @@
 <?php
 
-namespace CodexEditor\Entry;
+namespace CodexEditor\Blocks;
 
 class Structure {
 

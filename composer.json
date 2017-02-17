@@ -1,0 +1,16 @@
+{
+    "name": "codex.editor/backend",
+    "type": "library",
+    "description": "Codex Editor server side example",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "khaydarov",
+            "email": "murod.haydarov@inbox.ru"
+        }
+    ],
+    "require": {
+        "php": ">=5.6",
+        "ezyang/htmlpurifier": "^4.8"
+    }
+}

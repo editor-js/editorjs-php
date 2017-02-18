@@ -3,6 +3,7 @@
     "type": "library",
     "description": "Codex Editor server side example",
     "license": "MIT",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "khaydarov",

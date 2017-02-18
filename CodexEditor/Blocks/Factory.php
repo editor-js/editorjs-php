@@ -2,8 +2,20 @@
 
 namespace CodexEditor\Blocks;
 
-use CodexEditor\Blocks\Base;
+use \CodexEditor\Blocks\Base;
 
+/**
+ * Class Factory
+ * This class will contain methods that will be used to handle/modify
+ * basic classes
+ *
+ * @author Khaydarov Murod
+ * @author Khaydarov Murod <murod.haydarov@gmail.com>
+ * @copyright 2017 Codex Team
+ * @license MIT
+ * @package CodexEditor\Blocks
+ *
+ */
 class Factory {
 
     /**
@@ -39,7 +51,7 @@ class Factory {
              * Getting block
              * @var $blockClass - Block Class
              */
-            $blockClass = "CodexEditor\\Blocks\\" . $type;
+            $blockClass = "CodexEditor\\Blocks\\Tools\\" . $type;
 
             if (class_exists($blockClass)) {
 

@@ -1,7 +1,8 @@
 <?php
 
-namespace CodexEditor\Blocks;
+namespace CodexEditor\Blocks\Tools;
 
+use \CodexEditor\Blocks\Base;
 use \CodexEditor\Blocks\Interfaces\HTMLPurifyable;
 use \HTMLPurifier;
 

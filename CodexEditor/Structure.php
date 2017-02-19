@@ -1,9 +1,18 @@
 <?php
 
-namespace CodexEditor\Entry;
+namespace CodexEditor;
 
-use \CodexEditor\Blocks\Factory;
+use \CodexEditor\Tools\Factory;
 
+/**
+ * Class Structure
+ * This class works with entry
+ * Can :
+ *  [] return an Array of decoded blocks after proccess
+ *  [] return JSON encoded string
+ *
+ * @package CodexEditor
+ */
 class Structure {
 
     /**

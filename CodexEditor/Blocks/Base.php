@@ -5,6 +5,23 @@ namespace CodexEditor\Blocks;
 use \HTMLPurifier;
 use \CodexEditor\Blocks\Interfaces\HTMLPurifyable;
 
+/**
+ * Abstract class Base
+ * may be used as interface of Tools of Codex.Editor
+ * Each Tool must implement this class and define abstract methods
+ *
+ * @author Khaydarov Murod
+ * @author Khaydarov Murod <murod.haydarov@gmail.com>
+ * @copyright 2017 Codex Team
+ * @license MIT
+ *
+ * @package CodexEditor\Blocks
+ * @var string $data - input json as string
+ * @var object $sanitizer - html purifier
+ * @var string $template - path to html template of tool
+ *
+ */
+
 abstract class Base {
 
     /**
@@ -13,7 +30,7 @@ abstract class Base {
     protected $data;
 
     /**
-     * @var $sanitizer {Object} - Purrifier
+     * @var $sanitizer {Object} - Purifier
      */
     protected $sanitizer;
 

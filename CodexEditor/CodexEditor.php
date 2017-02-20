@@ -15,27 +15,14 @@ use \CodexEditor\Factory;
  */
 class CodexEditor {
 
-    /** error with json */
-    const ERROR_WITH_JSON = 'Ошибка при обработке входных данных';
-
-    /** error with input data */
-    const ERROR_WITH_DATA = 'Некорректные данные';
-
-    /** error with block processing */
-    const ERROR_WITH_BLOCKS = 'Ошибка обработки блока';
-
     /**
      * @var array - blocks classes
      */
     public $blocks = [];
 
     /**
-     * @var array - errors
-     */
-    public $errors = [];
-
-    /**
-     * Splits json string to separate blocks
+     * Splits JSON string to separate blocks
+     * @throws \Exception
      */
     public function __construct($json)
     {
@@ -48,38 +35,25 @@ class CodexEditor {
 
         } catch ( \Exception $e ) {
 
-            $this->errors[] = array(
-                self::ERROR_WITH_JSON => $e->getMessage()
-            );
+            throw new \Exception('Wrong JSON format');
 
         }
 
         if (is_null($data) || count($data) === 0 || !isset($data['data']) || count($data['data']) === 0) {
 
-            $this->errors[] = array(
-                self::ERROR_WITH_DATA => 'Массив пустой'
-            );
-        }
-
-        /** Errors found */
-        if (is_null($this->errors)) {
-            return $this->errors;
+            throw new \Exception('Array is empty');
         }
 
         foreach ($data['data'] as $blockData) {
 
             if (is_array($blockData)) {
 
-                try {
-
                     array_push($this->blocks, Factory::getBlock($blockData));
 
-                } catch ( \Exception $e) {
+            } else {
 
-                    $this->errors[] = array(
-                        self::ERROR_WITH_BLOCKS => $e->getMessage()
-                    );
-                }
+                throw new \Exception('Error with block: %s', $blockData);
+
             }
         }
 

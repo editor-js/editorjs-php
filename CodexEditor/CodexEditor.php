@@ -41,7 +41,7 @@ class CodexEditor {
 
         if (is_null($data) || count($data) === 0 || !isset($data['data']) || count($data['data']) === 0) {
 
-            throw new \Exception('Array is empty');
+            throw new \Exception('Input data is empty');
         }
 
         foreach ($data['data'] as $blockData) {

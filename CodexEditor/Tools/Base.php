@@ -56,7 +56,13 @@ abstract class Base implements Tools {
             $this->sanitizer->set('HTML.TargetBlank', true);
             $this->sanitizer->set('URI.AllowedSchemes', ['http' => true, 'https' => true]);
             $this->sanitizer->set('AutoFormat.RemoveEmpty', true);
+
+            if (!is_dir('/tmp/purifier')) {
+                mkdir('/tmp/purifier', 0777, true);
+            }
+
             $this->sanitizer->set('Cache.SerializerPath', '/tmp/purifier');
+
         }
 
     }

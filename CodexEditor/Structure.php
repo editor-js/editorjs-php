@@ -2,7 +2,7 @@
 
 namespace CodexEditor;
 
-use \CodexEditor\Tools\Factory;
+use \CodexEditor\Factory;
 
 /**
  * Class Structure

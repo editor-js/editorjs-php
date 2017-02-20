@@ -1,9 +1,9 @@
 <?php
 
-namespace CodexEditor\Blocks\Tools;
+namespace CodexEditor\Tools;
 
-use \CodexEditor\Blocks\Base;
-use \CodexEditor\Blocks\Interfaces\HTMLPurifyable;
+use \CodexEditor\Tools\Base;
+use \CodexEditor\Interfaces\HTMLPurifyable;
 use \HTMLPurifier;
 
 class Header extends Base implements HTMLPurifyable

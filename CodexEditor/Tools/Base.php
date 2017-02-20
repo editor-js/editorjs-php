@@ -1,9 +1,9 @@
 <?php
 
-namespace CodexEditor\Blocks;
+namespace CodexEditor\Tools;
 
 use \HTMLPurifier;
-use \CodexEditor\Blocks\Interfaces\HTMLPurifyable;
+use \CodexEditor\Interfaces\HTMLPurifyable;
 
 /**
  * Abstract class Base

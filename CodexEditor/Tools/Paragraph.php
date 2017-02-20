@@ -1,9 +1,9 @@
 <?php
 
-namespace CodexEditor\Blocks\Tools;
+namespace CodexEditor\Tools;
 
-use \CodexEditor\Blocks\Base;
-use \CodexEditor\Blocks\Interfaces\HTMLPurifyable;
+use \CodexEditor\Tools\Base;
+use \CodexEditor\Interfaces\HTMLPurifyable;
 use \HTMLPurifier;
 
 class Paragraph extends Base implements HTMLPurifyable {

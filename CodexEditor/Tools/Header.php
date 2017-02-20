@@ -21,10 +21,7 @@ class Header extends Base implements HTMLPurifyable
      */
     public function sanitize()
     {
-        $allowedTags = '';
-
         $sanitizer = clone $this->sanitizer;
-        $sanitizer->set('HTML.allowed', $allowedTags);
 
         $purifier = new HTMLPurifier($sanitizer);
         $this->data['data']['text'] = $purifier->purify($this->data['data']['text']);

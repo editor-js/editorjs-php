@@ -1,5 +1,5 @@
 {
-    "name": "codex/editor.backend",
+    "name": "codex.editor/backend",
     "type": "library",
     "description": "Codex Editor server side example",
     "license": "MIT",

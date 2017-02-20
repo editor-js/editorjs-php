@@ -3,6 +3,7 @@
 namespace CodexEditor\Tools;
 
 use \HTMLPurifier;
+use \CodexEditor\Interfaces\Tools;
 use \CodexEditor\Interfaces\HTMLPurifyable;
 
 /**
@@ -22,7 +23,7 @@ use \CodexEditor\Interfaces\HTMLPurifyable;
  *
  */
 
-abstract class Base {
+abstract class Base implements Tools {
 
     /**
      * @var $data {Array} - Block data

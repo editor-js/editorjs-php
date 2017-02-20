@@ -17,15 +17,25 @@ class Header extends Base implements HTMLPurifyable
     }
 
     /**
-     * @TODO clean data
+     * Header shoudn't contain tags. Only string
      */
     public function sanitize()
     {
+        $allowedTags = '';
+
+        $sanitizer = clone $this->sanitizer;
+        $sanitizer->set('HTML.allowed', $allowedTags);
+
+        $purifier = new HTMLPurifier($sanitizer);
+        $this->data['data']['text'] = $purifier->purify($this->data['data']['text']);
     }
 
     public function validate()
     {
-        if (is_array($this->data) && in_array($this->data['type'], self::getAllowedBlockTypes()['Header']) && is_array($this->data['data']) && isset($this->data['data']['format']) && $this->data['data']['format'] === 'html' && isset($this->data['data']['text']) && !empty($this->data['data']['text'])) {
+        if (is_array($this->data) && in_array($this->data['type'], self::getAllowedBlockTypes()['Header'])
+             && is_array($this->data['data']) && isset($this->data['data']['format']) && $this->data['data']['format'] === 'html'
+            && isset($this->data['data']['text']) && !empty($this->data['data']['text'])) {
+
             return true;
         }
 

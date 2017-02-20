@@ -4,7 +4,7 @@ namespace CodexEditor\Tools;
 
 use \CodexEditor\Tools\Base;
 
-class Codex extends Base {
+class Code extends Base {
 
     protected $template = 'code';
 

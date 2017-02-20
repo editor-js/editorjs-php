@@ -76,7 +76,7 @@ abstract class Base implements Tools {
 
     public static function getAllowedBlockTypes()
     {
-        return include('Config/BlockTypes.php');
+        return include('../Config/BlockTypes.php');
     }
 
 

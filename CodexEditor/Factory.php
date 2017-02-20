@@ -1,6 +1,6 @@
 <?php
 
-namespace CodexEditor\Tools;
+namespace CodexEditor;
 
 use \CodexEditor\Tools\Base;
 

@@ -1,9 +1,9 @@
 {
-    "name": "codex.editor/backend",
+    "name": "codex/editor.backend",
     "type": "library",
     "description": "Codex Editor server side example",
     "license": "MIT",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "authors": [
         {
             "name": "khaydarov",

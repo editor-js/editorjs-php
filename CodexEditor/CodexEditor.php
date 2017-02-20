@@ -13,7 +13,16 @@ use \CodexEditor\Factory;
  *
  * @package CodexEditor
  */
-class Structure {
+class CodexEditor {
+
+    /** error with json */
+    const ERROR_WITH_JSON = 'Ошибка при обработке входных данных';
+
+    /** error with input data */
+    const ERROR_WITH_DATA = 'Некорректные данные';
+
+    /** error with block processing */
+    const ERROR_WITH_BLOCKS = 'Ошибка обработки блока';
 
     /**
      * @var array - blocks classes
@@ -21,38 +30,58 @@ class Structure {
     public $blocks = [];
 
     /**
+     * @var array - errors
+     */
+    public $errors = [];
+
+    /**
      * Splits json string to separate blocks
-     *
      */
     public function __construct($json)
     {
-        $data = json_decode($json, true);
+        /**
+         * Check input data
+         */
+        try {
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            exit;
+            $data = json_decode($json, true);
+
+        } catch ( \Exception $e ) {
+
+            $this->errors[] = array(
+                self::ERROR_WITH_JSON => $e->getMessage()
+            );
+
         }
 
         if (is_null($data) || count($data) === 0 || !isset($data['data']) || count($data['data']) === 0) {
-            exit;
+
+            $this->errors[] = array(
+                self::ERROR_WITH_DATA => 'Массив пустой'
+            );
         }
 
-        $blocks = [];
+        /** Errors found */
+        if (is_null($this->errors)) {
+            return $this->errors;
+        }
 
         foreach ($data['data'] as $blockData) {
 
             if (is_array($blockData)) {
+
                 try {
 
-                    array_push($blocks, Factory::getBlock($blockData));
+                    array_push($this->blocks, Factory::getBlock($blockData));
 
-                } catch (Exception $e) {
+                } catch ( \Exception $e) {
 
-                    var_dump($e);
+                    $this->errors[] = array(
+                        self::ERROR_WITH_BLOCKS => $e->getMessage()
+                    );
                 }
             }
         }
-
-        $this->blocks = $blocks;
 
     }
 

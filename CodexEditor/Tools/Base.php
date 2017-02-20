@@ -1,9 +1,10 @@
 <?php
 
-namespace CodexEditor\Blocks;
+namespace CodexEditor\Tools;
 
 use \HTMLPurifier;
-use \CodexEditor\Blocks\Interfaces\HTMLPurifyable;
+use \CodexEditor\Interfaces\Tools;
+use \CodexEditor\Interfaces\HTMLPurifyable;
 
 /**
  * Abstract class Base
@@ -22,7 +23,7 @@ use \CodexEditor\Blocks\Interfaces\HTMLPurifyable;
  *
  */
 
-abstract class Base {
+abstract class Base implements Tools {
 
     /**
      * @var $data {Array} - Block data
@@ -55,6 +56,13 @@ abstract class Base {
             $this->sanitizer->set('HTML.TargetBlank', true);
             $this->sanitizer->set('URI.AllowedSchemes', ['http' => true, 'https' => true]);
             $this->sanitizer->set('AutoFormat.RemoveEmpty', true);
+
+            if (!is_dir('/tmp/purifier')) {
+                mkdir('/tmp/purifier', 0777, true);
+            }
+
+            $this->sanitizer->set('Cache.SerializerPath', '/tmp/purifier');
+
         }
 
     }
@@ -75,7 +83,7 @@ abstract class Base {
 
     public static function getAllowedBlockTypes()
     {
-        return include('Config/BlockTypes.php');
+        return require __DIR__ . '/' . '../Config/BlockTypes.php';
     }
 
 

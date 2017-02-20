@@ -13,6 +13,10 @@ return array(
         'link', 'link_embed'
     ),
 
+    'Code' => array(
+        'code'
+    ),
+
     'Quote' => array(
         'quote_styled'
     ),

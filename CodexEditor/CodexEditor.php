@@ -2,7 +2,7 @@
 
 namespace CodexEditor;
 
-use \CodexEditor\Tools\Factory;
+use \CodexEditor\Factory;
 
 /**
  * Class Structure
@@ -13,7 +13,7 @@ use \CodexEditor\Tools\Factory;
  *
  * @package CodexEditor
  */
-class Structure {
+class CodexEditor {
 
     /**
      * @var array - blocks classes
@@ -21,38 +21,41 @@ class Structure {
     public $blocks = [];
 
     /**
-     * Splits json string to separate blocks
-     *
+     * Splits JSON string to separate blocks
+     * @throws \Exception
      */
     public function __construct($json)
     {
-        $data = json_decode($json, true);
+        /**
+         * Check input data
+         */
+        try {
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            exit;
+            $data = json_decode($json, true);
+
+        } catch ( \Exception $e ) {
+
+            throw new \Exception('Wrong JSON format');
+
         }
 
         if (is_null($data) || count($data) === 0 || !isset($data['data']) || count($data['data']) === 0) {
-            exit;
-        }
 
-        $blocks = [];
+            throw new \Exception('Input data is empty');
+        }
 
         foreach ($data['data'] as $blockData) {
 
             if (is_array($blockData)) {
-                try {
 
-                    array_push($blocks, Factory::getBlock($blockData));
+                    array_push($this->blocks, Factory::getBlock($blockData));
 
-                } catch (Exception $e) {
+            } else {
 
-                    var_dump($e);
-                }
+                throw new \Exception('Block' . $blockData['type'] . 'must be an Array');
+
             }
         }
-
-        $this->blocks = $blocks;
 
     }
 

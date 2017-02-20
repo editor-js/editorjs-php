@@ -1,9 +1,9 @@
 <?php
 
-namespace CodexEditor\Blocks\Tools;
+namespace CodexEditor\Tools;
 
-use \CodexEditor\Blocks\Base;
-use \CodexEditor\Blocks\Interfaces\HTMLPurifyable;
+use \CodexEditor\Tools\Base;
+use \CodexEditor\Interfaces\HTMLPurifyable;
 use \HTMLPurifier;
 
 class Paragraph extends Base implements HTMLPurifyable {
@@ -45,7 +45,10 @@ class Paragraph extends Base implements HTMLPurifyable {
      */
     public function validate()
     {
-        if (is_array($this->data) && in_array($this->data['type'], self::getAllowedBlockTypes()['Paragraph']) && is_array($this->data['data']) && isset($this->data['data']['format']) && $this->data['data']['format'] === 'html' && isset($this->data['data']['text']) && !empty($this->data['data']['text'])) {
+        if (is_array($this->data) && in_array($this->data['type'], self::getAllowedBlockTypes()['Paragraph'])
+            && is_array($this->data['data']) && isset($this->data['data']['format']) && $this->data['data']['format'] === 'html'
+            && isset($this->data['data']['text']) && !empty($this->data['data']['text'])) {
+
             return true;
         }
 

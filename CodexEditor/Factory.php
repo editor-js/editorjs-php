@@ -1,8 +1,8 @@
 <?php
 
-namespace CodexEditor\Blocks;
+namespace CodexEditor;
 
-use \CodexEditor\Blocks\Base;
+use \CodexEditor\Tools\Base;
 
 /**
  * Class Factory
@@ -51,7 +51,7 @@ class Factory {
              * Getting block
              * @var $blockClass - Block Class
              */
-            $blockClass = "CodexEditor\\Blocks\\Tools\\" . $type;
+            $blockClass = "CodexEditor\\Tools\\" . $type;
 
             if (class_exists($blockClass)) {
 

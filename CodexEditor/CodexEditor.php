@@ -52,7 +52,7 @@ class CodexEditor {
 
             } else {
 
-                throw new \Exception('Error with block: %s', $blockData);
+                throw new \Exception('Block' . $blockData['type'] . 'must be an Array');
 
             }
         }

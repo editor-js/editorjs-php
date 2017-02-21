@@ -1,1 +1,1 @@
-# codex.editor.backend
+Codex.Editor server validation sample

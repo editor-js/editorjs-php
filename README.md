@@ -7,32 +7,40 @@ extend server Tool which will be able to clean dirty data or handle that.
 # Installation
 
 To install lib use composer:
-```composer require codex-team/codex.editor:dev-master```
+```
+composer require codex-team/codex.editor:dev-master
+```
 
 # Guide 
 
 Add this line at the top of your PHP script
 
-```use \CodexEditor\CodexEditor;`
+```php
+use \CodexEditor\CodexEditor;
+```
 
 this line allows you to get editors class that has such methods:
 
-```getBlocks``` - returns block data as Array
-```getData``` - return JSON string that can be recorded
+`getBlocks` - returns block data as Array
+`getData` - return JSON string that can be recorded
 
 # Basic usage
 
 You can get data from editor and send as param to editor's server validator like
-```$editor = new CodexEditor( $JSONData );\n $cleanData = $editor->getData(); ```
 
-now ```$cleanData``` is ready to record. 
+```php
+$editor = new CodexEditor( $JSONData );
+$cleanData = $editor->getData();
+```
+
+now `$cleanData` is ready to record. 
 
 # Make Tools
 
 If you made client plugin for Codex Editor then you should make your own Tool to validate on server-side.
-Put your class with `tool` name in `CodexEditor\Tools\`
+Put your class with tool-name in `CodexEditor\Tools\`
 
-Your class should extend abstract `Base` class that has abstract methods as:
+Your class should extend abstract `Base` class that has abstract methods such as:
 `initialize`, `validate`, `sanitize` - that must be defined in your tool
 
 If you want your plugin to have an oportunity to use HTMLpurifier library,

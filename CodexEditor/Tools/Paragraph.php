@@ -2,6 +2,7 @@
 
 namespace CodexEditor\Tools;
 
+use CodexEditor\Factory;
 use \CodexEditor\Tools\Base;
 use \CodexEditor\Interfaces\HTMLPurifyable;
 use \HTMLPurifier;
@@ -45,7 +46,7 @@ class Paragraph extends Base implements HTMLPurifyable {
      */
     public function validate()
     {
-        if (is_array($this->data) && in_array($this->data['type'], self::getAllowedBlockTypes()['Paragraph'])
+        if (is_array($this->data) && in_array($this->data['type'], Factory::getAllowedBlockTypes()['Paragraph'])
             && is_array($this->data['data']) && isset($this->data['data']['format']) && $this->data['data']['format'] === 'html'
             && isset($this->data['data']['text']) && !empty($this->data['data']['text'])) {
 

@@ -81,10 +81,4 @@ abstract class Base implements Tools {
         return $this->data;
     }
 
-    public static function getAllowedBlockTypes()
-    {
-        return require __DIR__ . '/' . '../Config/BlockTypes.php';
-    }
-
-
 }

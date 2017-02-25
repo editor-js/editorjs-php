@@ -24,7 +24,7 @@ class Factory {
      *
      * @return object
      */
-    public static function getBlock(array $data)
+    public static function getBlock(array $data, $config = null)
     {
         if (isset($data['type']) && !empty($data['type'])) {
             $type = ucfirst(trim(strtolower($data['type'])));
@@ -32,7 +32,7 @@ class Factory {
             /**
              * allowed datatypes from redactor
              */
-            $allowedBlockNameTypes = Base::getAllowedBlockTypes();
+            $allowedBlockNameTypes = $config ?: self::getAllowedBlockTypes();
 
             /**
              * Returns correct type name
@@ -66,5 +66,10 @@ class Factory {
         }
 
         return null;
+    }
+
+    public static function getAllowedBlockTypes()
+    {
+        return require __DIR__ . '/' . 'Config/BlockTypes.php';
     }
 }

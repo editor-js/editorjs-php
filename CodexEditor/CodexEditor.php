@@ -16,16 +16,26 @@ use \CodexEditor\Factory;
 class CodexEditor {
 
     /**
-     * @var array - blocks classes
+     * @var array $blocks - blocks classes
      */
     public $blocks = [];
+
+    /**
+     * @var array $config - list for block's classes
+     */
+    public $config;
 
     /**
      * Splits JSON string to separate blocks
      * @throws \Exception
      */
-    public function __construct($json)
+    public function __construct($json, $config = null)
     {
+
+        if (!isset($config)) {
+            $this->config = $config;
+        }
+
         /**
          * Check input data
          */
@@ -48,7 +58,7 @@ class CodexEditor {
 
             if (is_array($blockData)) {
 
-                    array_push($this->blocks, Factory::getBlock($blockData));
+                    array_push($this->blocks, Factory::getBlock($blockData, $config));
 
             } else {
 

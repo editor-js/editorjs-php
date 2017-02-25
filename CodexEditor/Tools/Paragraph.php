@@ -46,13 +46,10 @@ class Paragraph extends Base implements HTMLPurifyable {
      */
     public function validate()
     {
-        $isArrayAndAllowedType   = is_array($this->data) && in_array($this->data['type'], Factory::getAllowedBlockTypes()['Paragraph']);
-        $isArrayHasDataAndFormat = is_array($this->data['data']) && isset($this->data['data']['format']) && $this->data['data']['format'] === 'html';
-        $isArrayDataisNotEmpty   = isset($this->data['data']['text']) && !empty($this->data['data']['text']);
+        $validType      = is_array($this->data) && in_array($this->data['type'], Factory::getAllowedBlockTypes()['Paragraph']);
+        $textNotEmpty   = !empty($this->data['data']['text']);
 
-        if ($isArrayAndAllowedType
-            && $isArrayHasDataAndFormat
-            && $isArrayDataisNotEmpty) {
+        if ($validType && $textNotEmpty) {
 
             return true;
         }

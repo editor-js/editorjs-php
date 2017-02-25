@@ -16,12 +16,12 @@ use \CodexEditor\Factory;
 class CodexEditor {
 
     /**
-     * @var $blocks [Array] - blocks classes
+     * @var array $blocks - blocks classes
      */
     public $blocks = [];
 
     /**
-     * @var $config [Array] - block types
+     * @var array $config - list for block's classes
      */
     public $config;
 

@@ -26,17 +26,17 @@ use \CodexEditor\Interfaces\HTMLPurifyable;
 abstract class Base implements Tools {
 
     /**
-     * @var $data {Array} - Block data
+     * @var array $data - Block data
      */
     protected $data;
 
     /**
-     * @var $sanitizer {Object} - Purifier
+     * @var object $sanitizer - Purifier
      */
     protected $sanitizer;
 
     /**
-     * @var $template {HTML} - HTML content
+     * @var object $template - HTML content
      */
     protected $template;
 

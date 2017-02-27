@@ -2,6 +2,7 @@
 
 namespace CodexEditor\Tools;
 
+use \CodexEditor\Factory;
 use \CodexEditor\Tools\Base;
 
 class Instagram extends Base {
@@ -19,9 +20,10 @@ class Instagram extends Base {
 
     public function validate()
     {
-        if (is_array($this->data) && in_array($this->data['type'], self::getAllowedBlockTypes()['Instagram'])
-            && is_array($this->data['data']) && isset($this->data['data']['instagram_url']) && !empty($this->data['data']['instagram_url']))
+        $validType = is_array($this->data) && in_array($this->data['type'], Factory::getAllowedBlockTypes()['Instagram']);
+        $urlNotEmpty = is_array($this->data['data']) && isset($this->data['data']['instagram_url']) && !empty($this->data['data']['instagram_url']);
 
+        if ($validType && $urlNotEmpty)
             return true;
 
         return null;

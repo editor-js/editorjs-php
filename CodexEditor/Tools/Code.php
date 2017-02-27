@@ -2,6 +2,7 @@
 
 namespace CodexEditor\Tools;
 
+use \CodexEditor\Factory;
 use \CodexEditor\Tools\Base;
 
 class Code extends Base {
@@ -24,8 +25,10 @@ class Code extends Base {
 
     public function validate()
     {
-        if (is_array($this->data) && in_array($this->data['type'] == self::getAllowedBlockTypes()['Code'])
-                && is_array($this->data['data']) && isset($this->data['data']['text']) && !empty($this->data['data']['text']))
+        $validType = is_array($this->data) && in_array($this->data['type'], Factory::getAllowedBlockTypes()['Code']);
+        $textNotEmpty = is_array($this->data['data']) && isset($this->data['data']['text']) && !empty($this->data['data']['text']);
+
+        if ( $validType && $textNotEmpty)
             return true;
 
         return null;

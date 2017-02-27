@@ -2,7 +2,7 @@
 
 namespace CodexEditor\Tools;
 
-use CodexEditor\Factory;
+use \CodexEditor\Factory;
 use \CodexEditor\Tools\Base;
 
 class Code extends Base {

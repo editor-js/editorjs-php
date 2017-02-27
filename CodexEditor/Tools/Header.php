@@ -30,12 +30,11 @@ class Header extends Base implements HTMLPurifyable
 
     public function validate()
     {
-        if (is_array($this->data) && in_array($this->data['type'], Factory::getAllowedBlockTypes()['Header'])
-             && is_array($this->data['data']) && isset($this->data['data']['format']) && $this->data['data']['format'] === 'html'
-            && isset($this->data['data']['text']) && !empty($this->data['data']['text'])) {
+        $validType = is_array($this->data) && in_array($this->data['type'], Factory::getAllowedBlockTypes()['Header']);
+        $textNotEmpty = !empty($this->data['data']['text']);
 
+        if ($validType && $textNotEmpty)
             return true;
-        }
 
         return null;
     }

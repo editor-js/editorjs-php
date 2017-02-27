@@ -2,6 +2,7 @@
 
 namespace CodexEditor\Tools;
 
+use \CodexEditor\Factory;
 use \CodexEditor\Tools\Base;
 use \HTMLPurifier;
 use \CodexEditor\Interfaces\HTMLPurifyable;
@@ -27,12 +28,15 @@ class Image extends Base implements HTMLPurifyable {
         $this->data['data']['caption'] = $purifier->purify($this->data['data']['caption']);
     }
 
-    /**
-     * @todo VALIDATION
-     */
     public function validate()
     {
+        $validType = is_array($this->data) && in_array($this->data['type'], Factory::getAllowedBlockTypes()['Image']);
+        $urlNotEmpty = !empty($this->data['data']['url']);
 
+        if ($validType && $urlNotEmpty)
+            return true;
+
+        return null;
     }
 
 }

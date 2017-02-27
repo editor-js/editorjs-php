@@ -13,6 +13,10 @@ return array(
         'link', 'link_embed'
     ),
 
+    'Lists' => array(
+        'list'
+    ),
+
     'Code' => array(
         'code'
     ),

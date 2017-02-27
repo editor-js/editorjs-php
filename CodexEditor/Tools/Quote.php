@@ -21,7 +21,7 @@ class Quote extends Base implements HTMLPurifyable {
         $allowedTags = 'a[href], p, br, strong, i, em';
 
         $sanitizer = clone $this->sanitizer;
-        $sanitizer->set('HTML.Allowed', $sanitizer);
+        $sanitizer->set('HTML.Allowed', $allowedTags);
 
         $purifier = new HTMLPurifier($sanitizer);
 
@@ -32,7 +32,7 @@ class Quote extends Base implements HTMLPurifyable {
 
     public function validate()
     {
-        
+        return true;
     }
 
 }

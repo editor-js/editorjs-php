@@ -23,6 +23,6 @@ class Twitter extends Base implements HTMLPurifyable {
 
     public function validate()
     {
-        
+        return true;
     }
 }

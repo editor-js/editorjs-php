@@ -2,24 +2,26 @@
 
 namespace CodexEditor\Tools;
 
+use \CodexEditor\Factory;
 use \CodexEditor\Tools\Base;
+use \CodexEditor\Interfaces\HTMLPurifyable;
+use \HTMLPurifier;
 
-class Link extends Base {
-
-    protected $template = 'link';
+class Lists extends Base {
 
     public function initialize()
     {
-        return $this->validate();
+
     }
 
     public function sanitize()
     {
+        // TODO: Implement sanitize() method.
     }
 
     public function validate()
     {
-        return true;
-    }
 
+    }
 }
+

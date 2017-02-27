@@ -76,12 +76,14 @@ class CodexEditor {
      */
     public function getBlocks()
     {
+        $this->makeIndexes();
+
         /**
          * $callback {Function} Closure
          */
         $callback = function($block) {
 
-            if ($block) {
+            if (!empty($block)) {
                 return $block->getData();
             }
 
@@ -99,7 +101,11 @@ class CodexEditor {
         $this->makeIndexes();
 
         $callback = function($block) {
-            return $block->getData();
+
+            if (!empty($block)) {
+                return $block->getData();
+            }
+
         };
 
         return json_encode(['data' => array_map($callback, $this->blocks)], JSON_UNESCAPED_UNICODE);
@@ -110,7 +116,21 @@ class CodexEditor {
      */
     protected function makeIndexes()
     {
+        $this->clearDirtyBlocks();
         $this->blocks = array_combine(range(0, count($this->blocks)-1), array_values($this->blocks));
+    }
+
+    /**
+     * Clean NULL's
+     */
+    private function clearDirtyBlocks()
+    {
+        for($i = 0; $i < count($this->blocks); $i++) {
+
+            if (empty($this->blocks[$i])) {
+                unset($this->blocks[$i]);
+            }
+        }
     }
 
 }

@@ -39,26 +39,36 @@ class CodexEditor {
         /**
          * Check input data
          */
-        try {
+        $data = json_decode($json, true);
 
-            $data = json_decode($json, true);
-
-        } catch ( \Exception $e ) {
-
-            throw new \Exception('Wrong JSON format');
-
+        if (json_last_error()) {
+            throw new \Exception('Wrong JSON format: ' . json_last_error_msg());
         }
 
-        if (is_null($data) || count($data) === 0 || !isset($data['data']) || count($data['data']) === 0) {
+        if ( is_null($data) ){
+            throw new \Exception('Input is null');
+        }
 
-            throw new \Exception('Input data is empty');
+        if ( count($data) === 0 ) {
+            throw new \Exception('Input array is empty');
+        }
+
+        /**
+         * @todo Remove 'data', save 'items'
+         */
+        if ( !isset($data['data']) && !isset($data['items']) ){
+            throw new \Exception('Data or items missed ');
+        }
+
+        if ( count($data['data']) === 0 ) {
+            throw new \Exception('Input blocks are empty');
         }
 
         foreach ($data['data'] as $blockData) {
 
             if (is_array($blockData)) {
 
-                    array_push($this->blocks, Factory::getBlock($blockData, $config));
+                array_push($this->blocks, Factory::getBlock($blockData, $config));
 
             } else {
 

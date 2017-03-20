@@ -11,9 +11,22 @@ class Attaches extends Base implements HTMLPurifyable {
 
     protected $template = 'attaches';
 
+    /**
+     * Fields in $this->data object
+     * @var array
+     */
+    private $requredFields = array(
+        'name',
+        'title',
+        'size',
+        'extension',
+        'url'
+    );
+
     public function initialize()
     {
-        return true;
+        $this->sanitize();
+        return $this->validate();
     }
 
     /**
@@ -23,8 +36,13 @@ class Attaches extends Base implements HTMLPurifyable {
      */
     public function sanitize()
     {
+        $sanitizer = clone $this->sanitizer;
 
+        $purifier = new HTMLPurifier($sanitizer);
 
+        foreach ($this->requredFields as $field) {
+            $this->data['data'][$field] = $purifier->purify($this->data['data'][$field]);
+        }
     }
 
     /**
@@ -34,7 +52,40 @@ class Attaches extends Base implements HTMLPurifyable {
      */
     public function validate()
     {
+        if (!is_array($this->data)) {
+            return false;
+        }
 
+        if (!in_array($this->data['type'], Factory::getAllowedBlockTypes()['Attaches']) ){
+            return false;
+        }
+
+        foreach ($this->requredFields as $field) {
+            if (empty($this->data['data'][$field])) {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    /**
+     * Returns block 'data'
+     * @param Boolean $escapeHTML  pass TRUE to escape HTML entities
+     * @return array    with block data
+     */
+    public function getData($escapeHTML = false)
+    {
+        foreach ($this->data['data'] as $key => $value) {
+            if ($escapeHTML) {
+                $this->data['data'][$key] = htmlspecialchars($value);
+            } else {
+                $this->data['data'][$key] = $value;
+            }
+        }
+
+        return $this->data;
     }
 
     /**

@@ -10,7 +10,7 @@ return array(
     ),
 
     'Image' => array(
-        'image_extended'
+        'image'
     ),
 
     'Link' => array(

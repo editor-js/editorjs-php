@@ -76,7 +76,12 @@ abstract class Base implements Tools {
     /** Should be extended by Block Class */
     abstract function sanitize();
 
-    public function getData()
+    /**
+     * Returns block 'data'
+     * @param Boolean $escapeHTML  pass TRUE to escape HTML entities
+     * @return array    with block data
+     */
+    public function getData($escapeHTML = false)
     {
         return $this->data;
     }

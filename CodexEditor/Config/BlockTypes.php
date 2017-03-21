@@ -9,6 +9,10 @@ return array(
         'attaches'
     ),
 
+    'Raw' => array(
+        'raw'
+    ),
+
     'Image' => array(
         'image'
     ),

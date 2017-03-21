@@ -5,8 +5,12 @@ return array(
         'paragraph', 'text', 'textarea'
     ),
 
+    'Attaches' => array(
+        'attaches'
+    ),
+
     'Image' => array(
-        'image_extended'
+        'image'
     ),
 
     'Link' => array(

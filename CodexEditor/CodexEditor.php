@@ -68,7 +68,7 @@ class CodexEditor {
 
             if (is_array($blockData)) {
 
-                array_push($this->blocks, Factory::getBlock($blockData, $config));
+                    array_push($this->blocks, Factory::getBlock($blockData, $config));
 
             } else {
 
@@ -104,21 +104,23 @@ class CodexEditor {
     }
 
     /**
+     * Returns all blocks data
+     * @param Boolean $escapeHTML pass TRUE to escape HTML entities
      * @return {String} - json string of blocks
      */
-    public function getData()
+    public function getData($escapeHTML = false)
     {
         $this->makeIndexes();
 
-        $callback = function($block) {
+        $blocks = array();
 
-            if (!empty($block)) {
-                return $block->getData();
+        foreach ($this->blocks as $block){
+            if (!empty($block)){
+                $blocks[] = $block->getData($escapeHTML);
             }
+        }
 
-        };
-
-        return json_encode(['data' => array_map($callback, $this->blocks)], JSON_UNESCAPED_UNICODE);
+        return json_encode(array('data' => $blocks), JSON_UNESCAPED_UNICODE);
     }
 
     /**

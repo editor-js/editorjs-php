@@ -53,18 +53,11 @@ class CodexEditor {
             throw new \Exception('Input array is empty');
         }
 
-        /**
-         * @todo Remove 'data', save 'items'
-         */
-        if ( !isset($data['data']) && !isset($data['items']) ){
-            throw new \Exception('Data or items missed ');
+        if ( count($data['items']) === 0 ) {
+            return;
         }
 
-        if ( count($data['data']) === 0 ) {
-            throw new \Exception('Input blocks are empty');
-        }
-
-        foreach ($data['data'] as $blockData) {
+        foreach ($data['items'] as $blockData) {
 
             if (is_array($blockData)) {
 
@@ -120,7 +113,7 @@ class CodexEditor {
             }
         }
 
-        return json_encode(array('data' => $blocks), JSON_UNESCAPED_UNICODE);
+        return json_encode(array('items' => $blocks), JSON_UNESCAPED_UNICODE);
     }
 
     /**

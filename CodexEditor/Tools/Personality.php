@@ -17,7 +17,7 @@ class Personality extends Base implements HTMLPurifyable {
      */
     private $requredFields = array(
         'name'  => '',
-        'cite'  => 'a[href],br,p,strong,b,i,em',
+        'cite'  => 'a[href],p,strong,b,i,em',
         'url'   => '',
         'photo' => ''
     );
@@ -39,7 +39,11 @@ class Personality extends Base implements HTMLPurifyable {
 
             $sanitizer = clone $this->sanitizer;
             $purifier  = new HTMLPurifier($sanitizer);
-            $sanitizer->set('HTML.Allowed', $allowedTags);
+
+            if ($allowedTags) {
+                $sanitizer->set('HTML.Allowed', $allowedTags);
+                $sanitizer->set('AutoFormat.RemoveEmpty', true);
+            }
 
             $this->data['data'][$field] = $purifier->purify($this->data['data'][$field]);
             $this->data['data'][$field] = trim($this->data['data'][$field]);

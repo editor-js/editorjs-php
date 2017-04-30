@@ -53,18 +53,12 @@ class CodexEditor {
             throw new \Exception('Input array is empty');
         }
 
-        /**
-         * @todo Remove 'data', save 'items'
-         */
-        if ( !isset($data['data']) && !isset($data['items']) ){
-            throw new \Exception('Data or items missed ');
-        }
 
-        if ( count($data['data']) === 0 ) {
+        /*if ( count($data['items']) === 0 ) {
             throw new \Exception('Input blocks are empty');
-        }
+        }*/
 
-        foreach ($data['data'] as $blockData) {
+        foreach ($data['items'] as $blockData) {
 
             if (is_array($blockData)) {
 
@@ -77,39 +71,21 @@ class CodexEditor {
             }
         }
 
-    }
-
-    /**
-     * Returns entry blocks as separate array element
-     *
-     * @return array
-     */
-    public function getBlocks()
-    {
-        $this->makeIndexes();
-
-        /**
-         * $callback {Function} Closure
-         */
-        $callback = function($block) {
-
-            if (!empty($block)) {
-                return $block->getData();
-            }
-
-        };
-
-        return array_map( $callback, $this->blocks);
 
     }
 
     /**
-     * Returns all blocks data
+     * Returns all blocks classes
      * @param Boolean $escapeHTML pass TRUE to escape HTML entities
-     * @return {String} - json string of blocks
+     * @return {array} - array of blocks
      */
-    public function getData($escapeHTML = false)
+    public function getBlocks($escapeHTML = false)
     {
+
+        if (empty($this->blocks)) {
+            return array();
+        }
+
         $this->makeIndexes();
 
         $blocks = array();
@@ -120,7 +96,20 @@ class CodexEditor {
             }
         }
 
-        return json_encode(array('data' => $blocks), JSON_UNESCAPED_UNICODE);
+        return $blocks;
+
+    }
+
+    /**
+     * Returns all blocks data
+     * @param Boolean $escapeHTML pass TRUE to escape HTML entities
+     * @return {String} - json string of blocks
+     */
+    public function getData($escapeHTML = false)
+    {
+
+        return json_encode(array('items' => $this->getBlocks($escapeHTML)), JSON_UNESCAPED_UNICODE);
+
     }
 
     /**

@@ -11,6 +11,17 @@ class Link extends Base implements HTMLPurifyable {
 
     protected $template = 'link';
 
+    /**
+     * Fields in $this->data object
+     * @var array
+     */
+    private $requredFields = array(
+        'title'  => '',
+        'description'  => 'a[href],p,strong,b,i,em',
+        'linkText'   => '',
+        'linkUrl' => ''
+    );
+
     public function initialize()
     {
         $this->sanitize();
@@ -23,16 +34,18 @@ class Link extends Base implements HTMLPurifyable {
             $this->data['data']['style'] = 'smallCover';
         }
 
-        $allowedTags = 'a[href],br,p,b,i';
+        foreach ($this->requredFields as $field => $allowedTags) {
 
-        $sanitizer = clone $this->sanitizer;
-        $sanitizer->set('HTML.Allowed', $allowedTags);
+            $sanitizer = clone $this->sanitizer;
+            $purifier  = new HTMLPurifier($sanitizer);
+            if ($allowedTags) {
+                $sanitizer->set('HTML.Allowed', $allowedTags);
+                $sanitizer->set('AutoFormat.RemoveEmpty', true);
+            }
+            $this->data['data'][$field] = $purifier->purify($this->data['data'][$field]);
+            $this->data['data'][$field] = trim($this->data['data'][$field]);
 
-        $purifier = new HTMLPurifier($sanitizer);
-        $this->data['data']['title'] = $purifier->purify($this->data['data']['title']);
-        $this->data['data']['description'] = $purifier->purify($this->data['data']['description']);
-        $this->data['data']['linkText'] = $purifier->purify($this->data['data']['linkText']);
-        $this->data['data']['linkUrl'] = $purifier->purify($this->data['data']['linkUrl']);
+        }
 
     }
 

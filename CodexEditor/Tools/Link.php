@@ -30,7 +30,7 @@ class Link extends Base implements HTMLPurifyable {
 
     public function sanitize()
     {
-        if ($this->data['data']['style'] != 'smallCover' || $this->data['data']['style'] != 'bigCover') {
+        if ($this->data['data']['style'] != 'smallCover' && $this->data['data']['style'] != 'bigCover') {
             $this->data['data']['style'] = 'smallCover';
         }
 

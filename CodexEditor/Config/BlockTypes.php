@@ -47,5 +47,9 @@ return array(
 
     'Embed' => array(
         'video_extended', 'embed'
+    ),
+
+    'Delimiter' => array(
+        'delimiter'
     )
 );

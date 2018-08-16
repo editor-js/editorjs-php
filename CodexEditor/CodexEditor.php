@@ -56,23 +56,23 @@ class CodexEditor {
         /**
          * @todo Remove 'data', save 'items'
          */
-        if ( !isset($data['data']) && !isset($data['items']) ){
-            throw new \Exception('Data or items missed ');
+        if ( !isset($data['blocks']) ){
+            throw new \Exception('Items missed');
         }
 
-        if ( count($data['data']) === 0 ) {
+        if ( count($data['blocks']) === 0 ) {
             throw new \Exception('Input blocks are empty');
         }
 
-        foreach ($data['data'] as $blockData) {
+        foreach ($data['blocks'] as $blockData) {
 
             if (is_array($blockData)) {
 
-                    array_push($this->blocks, Factory::getBlock($blockData, $config));
+                array_push($this->blocks, Factory::getBlock($blockData, $config));
 
             } else {
 
-                throw new \Exception('Block' . $blockData['type'] . 'must be an Array');
+                throw new \Exception('Block must be an Array');
 
             }
         }
@@ -120,7 +120,7 @@ class CodexEditor {
             }
         }
 
-        return json_encode(array('data' => $blocks), JSON_UNESCAPED_UNICODE);
+        return json_encode(array('blocks' => $blocks), JSON_UNESCAPED_UNICODE);
     }
 
     /**

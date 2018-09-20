@@ -25,15 +25,24 @@ class CodexEditor
     public $config;
 
     /**
+     * @var $handler
+     */
+    public $handler;
+
+    /**
+     * @var $handler
+     */
+    public $sanitizer;
+
+
+    /**
      * Splits JSON string to separate blocks
      * @throws \Exception
      */
-    public function __construct($json, $config = null)
+    public function __construct($json, $configuration_filename)
     {
-
-        if (!isset($config)) {
-            $this->config = $config;
-        }
+        $this->initPurifier();
+        $this->handler = new BlockHandler($configuration_filename, $this->sanitizer);
 
         /**
          * Check input data
@@ -65,85 +74,34 @@ class CodexEditor
         }
 
         foreach ($data['blocks'] as $blockData) {
-
             if (is_array($blockData)) {
-
                 array_push($this->blocks, $blockData);
-//                array_push($this->blocks, Factory::getBlock($blockData, $config));
-
             } else {
-
                 throw new \Exception('Block must be an Array');
-
             }
         }
 
     }
 
-    /**
-     * Returns entry blocks as separate array element
-     *
-     * @return array
-     */
-    public function getBlocks()
-    {
-        $this->makeIndexes();
+    private function initPurifier() {
+        $this->sanitizer = \HTMLPurifier_Config::createDefault();
 
-        /**
-         * $callback {Function} Closure
-         */
-        $callback = function ($block) {
+        $this->sanitizer->set('HTML.TargetBlank', true);
+        $this->sanitizer->set('URI.AllowedSchemes', ['http' => true, 'https' => true]);
+        $this->sanitizer->set('AutoFormat.RemoveEmpty', true);
 
-            if (!empty($block)) {
-                return $block->getData();
-            }
+        if (!is_dir('/tmp/purifier')) {
+            mkdir('/tmp/purifier', 0777, true);
+        }
 
-        };
-
-        return array_map($callback, $this->blocks);
-
+        $this->sanitizer->set('Cache.SerializerPath', '/tmp/purifier');
     }
 
-    /**
-     * Returns all blocks data
-     * @param Boolean $escapeHTML pass TRUE to escape HTML entities
-     * @return {String} - json string of blocks
-     */
-    public function getData($escapeHTML = false)
-    {
-        $this->makeIndexes();
-
-        $blocks = array();
-
+    public function sanitize() {
+        $sanitizedBlocks = [];
         foreach ($this->blocks as $block) {
-            if (!empty($block)) {
-                $blocks[] = $block->getData($escapeHTML);
-            }
+            array_push($sanitizedBlocks, $this->handler->validate_block($block['type'], $block['data']));
         }
-
-        return json_encode(array('blocks' => $blocks), JSON_UNESCAPED_UNICODE);
+        return $sanitizedBlocks;
     }
-
-    /**
-     * Make indexed blocks
-     */
-    protected function makeIndexes()
-    {
-        $this->clearDirtyBlocks();
-        $this->blocks = array_combine(range(0, count($this->blocks) - 1), array_values($this->blocks));
-    }
-
-    /**
-     * Clean NULL's
-     */
-    private function clearDirtyBlocks()
-    {
-        for ($i = 0; $i < count($this->blocks); $i++) {
-
-            if (empty($this->blocks[$i])) {
-                unset($this->blocks[$i]);
-            }
-        }
-    }
-
 }

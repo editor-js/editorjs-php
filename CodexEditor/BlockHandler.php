@@ -14,10 +14,12 @@ namespace CodexEditor;
 class BlockHandler
 {
     private $rules = null;
+    private $sanitizer;
 
-    public function __construct($configuration_filename)
+    public function __construct($configuration_filename, $sanitizer)
     {
         $this->rules = new ConfigLoader($configuration_filename);
+        $this->sanitizer = $sanitizer;
     }
 
     public function validate_block($blockType, $blockData)
@@ -31,8 +33,11 @@ class BlockHandler
 
         $rule = $this->rules->tools[$blockType];
 
-        echo "\n$blockType\n=========";
-        $this->validate($rule, $blockData);
+//        echo "\n$blockType\n=========";
+        return [
+            'type' => $blockType,
+            'data' => $this->validate($rule, $blockData)
+        ];
     }
 
     public function validate($rule, $blockData) {
@@ -61,7 +66,7 @@ class BlockHandler
                 $key = "-";
             }
             $elementType = $rule[$key]['type'];
-            echo "\nProcessing: $key ($elementType)";
+//            echo "\nProcessing: $key ($elementType)";
 
             if ($elementType == 'const') {
                 if (!in_array($value, $rule[$key]['canBeOnly'])) {
@@ -69,7 +74,8 @@ class BlockHandler
                 }
             }
             else if ($elementType == 'string') {
-                $allowedTags = $rule[$key]['allowedTags'] ?? [];
+                $allowedTags = $rule[$key]['allowedTags'] ?? '';
+                $blockData[$key] = $this->getPurifier($allowedTags)->purify($value);
             }
             else if ($elementType == 'int') {
                 if (!is_integer($value)) {
@@ -77,13 +83,21 @@ class BlockHandler
                 }
             }
             else if ($elementType == 'array') {
-                $this->validate($rule[$key]['data'], $value);
+                $blockData[$key] = $this->validate($rule[$key]['data'], $value);
             }
             else {
                 throw new \Exception("Unhandled type: $elementType");
             }
         }
-        echo "\n";
+//        echo "\n";
+        return $blockData;
+    }
+
+    private function getPurifier($allowedTags) {
+        $sanitizer = clone $this->sanitizer;
+        $sanitizer->set('HTML.Allowed', $allowedTags);
+        $purifier = new \HTMLPurifier($sanitizer);
+        return $purifier;
     }
 
     private static function get($key, $default=null) {

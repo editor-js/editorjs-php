@@ -45,7 +45,7 @@ class BlockHandler
             /**
              * Check if required params are presented in data
              */
-            if (($key != "-") && ($value['required'] ?? true)) {
+            if (($key != "-") && (isset($value['required'])?$value['required']:true)) {
                 if (!isset($blockData[$key])) {
                     throw new \Exception("Not found required param $key");
                 }
@@ -74,7 +74,7 @@ class BlockHandler
                 }
             }
             else if ($elementType == 'string') {
-                $allowedTags = $rule[$key]['allowedTags'] ?? '';
+                $allowedTags = isset($rule[$key]['allowedTags'])?$rule[$key]['allowedTags']:'';
                 $blockData[$key] = $this->getPurifier($allowedTags)->purify($value);
             }
             else if ($elementType == 'int') {

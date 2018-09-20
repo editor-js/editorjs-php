@@ -52,9 +52,6 @@ class CodexEditor
             throw new \Exception('Input array is empty');
         }
 
-        /**
-         * @todo Remove 'data', save 'items'
-         */
         if (!isset($data['blocks'])) {
             throw new \Exception('Items missed');
         }
@@ -71,7 +68,8 @@ class CodexEditor
 
             if (is_array($blockData)) {
 
-                array_push($this->blocks, Factory::getBlock($blockData, $config));
+                array_push($this->blocks, $blockData);
+//                array_push($this->blocks, Factory::getBlock($blockData, $config));
 
             } else {
 

@@ -1,0 +1,50 @@
+{
+  "tools": {
+    "header": {
+      "text": {
+        "type": "string",
+        "required": true,
+        "allowedTags": [],
+        "forbiddenTags": ["b"]
+      },
+      "level": {
+        "type": "int"
+      }
+    },
+    "paragraph": {
+      "text": {
+        "type": "string",
+        "allowedTags": [],
+        "forbiddenTags": ["b"]
+      }
+    },
+    "list": {
+      "style": {
+        "type": "const",
+        "canBeOnly": ["ordered", "numbered"]
+      },
+      "items": {
+        "type": "array",
+        "data": {
+          "-": {
+            "type": "string",
+            "allowedTags": [],
+            "forbiddenTags": ["b"]
+          }
+        }
+      }
+    },
+    "quote": {
+      "quote": {
+        "type": "string"
+      },
+      "caption": {
+        "type": "string"
+      },
+      "alignment": {
+        "type": "const",
+        "canBeOnly": ["left", "right"]
+      }
+    }
+  }
+}

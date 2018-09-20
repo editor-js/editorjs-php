@@ -2,8 +2,6 @@
 
 namespace CodexEditor;
 
-use \CodexEditor\Factory;
-
 /**
  * Class Structure
  * This class works with entry
@@ -13,7 +11,8 @@ use \CodexEditor\Factory;
  *
  * @package CodexEditor
  */
-class CodexEditor {
+class CodexEditor
+{
 
     /**
      * @var array $blocks - blocks classes
@@ -45,23 +44,27 @@ class CodexEditor {
             throw new \Exception('Wrong JSON format: ' . json_last_error_msg());
         }
 
-        if ( is_null($data) ){
+        if (is_null($data)) {
             throw new \Exception('Input is null');
         }
 
-        if ( count($data) === 0 ) {
+        if (count($data) === 0) {
             throw new \Exception('Input array is empty');
         }
 
         /**
          * @todo Remove 'data', save 'items'
          */
-        if ( !isset($data['blocks']) ){
+        if (!isset($data['blocks'])) {
             throw new \Exception('Items missed');
         }
 
-        if ( count($data['blocks']) === 0 ) {
+        if (count($data['blocks']) === 0) {
             throw new \Exception('Input blocks are empty');
+        }
+
+        if (!is_array($data['blocks'])) {
+            throw new \Exception('Blocks is not an array');
         }
 
         foreach ($data['blocks'] as $blockData) {
@@ -91,7 +94,7 @@ class CodexEditor {
         /**
          * $callback {Function} Closure
          */
-        $callback = function($block) {
+        $callback = function ($block) {
 
             if (!empty($block)) {
                 return $block->getData();
@@ -99,7 +102,7 @@ class CodexEditor {
 
         };
 
-        return array_map( $callback, $this->blocks);
+        return array_map($callback, $this->blocks);
 
     }
 
@@ -114,8 +117,8 @@ class CodexEditor {
 
         $blocks = array();
 
-        foreach ($this->blocks as $block){
-            if (!empty($block)){
+        foreach ($this->blocks as $block) {
+            if (!empty($block)) {
                 $blocks[] = $block->getData($escapeHTML);
             }
         }
@@ -129,7 +132,7 @@ class CodexEditor {
     protected function makeIndexes()
     {
         $this->clearDirtyBlocks();
-        $this->blocks = array_combine(range(0, count($this->blocks)-1), array_values($this->blocks));
+        $this->blocks = array_combine(range(0, count($this->blocks) - 1), array_values($this->blocks));
     }
 
     /**
@@ -137,7 +140,7 @@ class CodexEditor {
      */
     private function clearDirtyBlocks()
     {
-        for($i = 0; $i < count($this->blocks); $i++) {
+        for ($i = 0; $i < count($this->blocks); $i++) {
 
             if (empty($this->blocks[$i])) {
                 unset($this->blocks[$i]);

@@ -11,6 +11,13 @@ class ConfigLoader
 {
     public $tools = array();
 
+    /**
+     * ConfigLoader constructor.
+     *
+     * @param string $config_file
+     *
+     * @throws \Exception
+     */
     public function __construct($config_file)
     {
         if (empty($config_file)) {
@@ -31,7 +38,13 @@ class ConfigLoader
         $this->loadTools($config);
     }
 
-    private function loadTools($config) {
+    /**
+     * @param array $config
+     *
+     * @throws \Exception
+     */
+    private function loadTools($config)
+    {
         if (!isset($config['tools'])) {
             throw new \Exception('Tools not found in configuration file');
         }
@@ -45,7 +58,13 @@ class ConfigLoader
         }
     }
 
-    private function loadTool($data) {
+    /**
+     * @param array $data
+     *
+     * @return array
+     */
+    private function loadTool($data)
+    {
         return $data;
     }
 }

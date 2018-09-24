@@ -3,17 +3,12 @@
 namespace CodexEditor;
 
 /**
- * Class Structure
- * This class works with entry
- * Can :
- *  [] return an Array of decoded blocks after proccess
- *  [] return JSON encoded string
+ * Class CodexEditor
  *
  * @package CodexEditor
  */
 class CodexEditor
 {
-
     /**
      * @var array $blocks - blocks classes
      */
@@ -25,18 +20,22 @@ class CodexEditor
     public $config;
 
     /**
-     * @var $handler
+     * @var BlockHandler
      */
     public $handler;
 
     /**
-     * @var $handler
+     * @var \HTMLPurifier_Config
      */
     public $sanitizer;
 
-
     /**
+     * CodexEditor constructor.
      * Splits JSON string to separate blocks
+     *
+     * @param string $json
+     * @param string $configuration_filename
+     *
      * @throws \Exception
      */
     public function __construct($json, $configuration_filename)
@@ -49,25 +48,34 @@ class CodexEditor
          */
         $data = json_decode($json, true);
 
+        /**
+         * Handle decoding JSON error
+         */
         if (json_last_error()) {
             throw new \Exception('Wrong JSON format: ' . json_last_error_msg());
         }
 
+        /**
+         * Check if data is null
+         */
         if (is_null($data)) {
             throw new \Exception('Input is null');
         }
 
+        /**
+         * Count elements in data array
+         */
         if (count($data) === 0) {
             throw new \Exception('Input array is empty');
         }
 
+        /**
+         * Check if blocks param is missing in data
+         */
         if (!isset($data['blocks'])) {
-            throw new \Exception('Items missed');
+            throw new \Exception('Field `blocks` is missing');
         }
 
-        if (count($data['blocks']) === 0) {
-            throw new \Exception('Input blocks are empty');
-        }
 
         if (!is_array($data['blocks'])) {
             throw new \Exception('Blocks is not an array');
@@ -83,7 +91,11 @@ class CodexEditor
 
     }
 
-    private function initPurifier() {
+    /**
+     *
+     */
+    private function initPurifier()
+    {
         $this->sanitizer = \HTMLPurifier_Config::createDefault();
 
         $this->sanitizer->set('HTML.TargetBlank', true);
@@ -97,11 +109,17 @@ class CodexEditor
         $this->sanitizer->set('Cache.SerializerPath', '/tmp/purifier');
     }
 
-    public function sanitize() {
+    /**
+     * @return array
+     */
+    public function sanitize()
+    {
         $sanitizedBlocks = [];
+
         foreach ($this->blocks as $block) {
             array_push($sanitizedBlocks, $this->handler->validate_block($block['type'], $block['data']));
         }
+
         return $sanitizedBlocks;
     }
 }

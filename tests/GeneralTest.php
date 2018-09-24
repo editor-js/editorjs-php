@@ -1,10 +1,13 @@
 <?php
+
 use CodexEditor\CodexEditor;
 
 class GeneralTest extends TestCase
 {
     const SAMPLE_VALID_DATA = '{"time":1537444483710,"blocks":[{"type":"header","data":{"text":"CodeX Editor","level":2}},{"type":"paragraph","data":{"text":"Привет. Перед вами наш обновленный редактор. На этой странице вы можете проверить его в действии — попробуйте отредактировать или дополнить материал. Код страницы содержит пример подключения и простейшей настройки."}}],"version":"2.0.3"}';
+
     const EMPTY_DATA = '';
+
     const CONFIG = TESTS_DIR . "/samples/test-config.json";
 
     public function testValidData()
@@ -17,6 +20,7 @@ class GeneralTest extends TestCase
         $callable = function() {
             new CodexEditor('', GeneralTest::CONFIG);
         };
+
         $this->assertException($callable, Exception::class, null, 'Wrong JSON format: Syntax error');
     }
 
@@ -25,6 +29,7 @@ class GeneralTest extends TestCase
         $callable = function() {
             new CodexEditor('{}', GeneralTest::CONFIG);
         };
+
         $this->assertException($callable, Exception::class, null, 'Input array is empty');
     }
 
@@ -33,6 +38,7 @@ class GeneralTest extends TestCase
         $callable = function() {
             new CodexEditor('{[{', GeneralTest::CONFIG);
         };
+
         $this->assertException($callable, Exception::class, null, 'Wrong JSON format: Syntax error');
     }
 
@@ -41,7 +47,8 @@ class GeneralTest extends TestCase
         $callable = function() {
             new CodexEditor('{"s":""}', GeneralTest::CONFIG);
         };
-        $this->assertException($callable, Exception::class, null, 'Items missed');
+
+        $this->assertException($callable, Exception::class, null, 'Field `blocks` is missing');
     }
 
     public function testUnicode()
@@ -49,15 +56,8 @@ class GeneralTest extends TestCase
         $callable = function() {
             new CodexEditor('{"s":"😀"}', GeneralTest::CONFIG);
         };
-        $this->assertException($callable, Exception::class, null, 'Items missed');
-    }
 
-    public function testEmptyBlocks()
-    {
-        $callable = function() {
-            new CodexEditor('{"blocks":[]}', GeneralTest::CONFIG);
-        };
-        $this->assertException($callable, Exception::class, null, 'Input blocks are empty');
+        $this->assertException($callable, Exception::class, null, 'Field `blocks` is missing');
     }
 
     public function testInvalidBlock()
@@ -65,6 +65,7 @@ class GeneralTest extends TestCase
         $callable = function() {
             new CodexEditor('{"blocks":""}', GeneralTest::CONFIG);
         };
+
         $this->assertException($callable, Exception::class, null, 'Blocks is not an array');
     }
 
@@ -73,6 +74,7 @@ class GeneralTest extends TestCase
         $callable = function() {
             new CodexEditor('{"blocks":["",""]}', GeneralTest::CONFIG);
         };
+
         $this->assertException($callable, Exception::class, null, 'Block must be an Array');
     }
 

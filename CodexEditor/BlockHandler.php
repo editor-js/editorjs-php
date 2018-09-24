@@ -3,25 +3,43 @@
 namespace CodexEditor;
 
 /**
- * Class Structure
- * This class works with entry
- * Can :
- *  [] return an Array of decoded blocks after proccess
- *  [] return JSON encoded string
+ * Class BlockHandler
  *
  * @package CodexEditor
  */
 class BlockHandler
 {
+    /**
+     * @var ConfigLoader|null
+     */
     private $rules = null;
+
+    /**
+     * @var \HTMLPurifier_Config
+     */
     private $sanitizer;
 
+    /**
+     * BlockHandler constructor.
+     *
+     * @param string $configuration_filename
+     * @param \HTMLPurifier_Config $sanitizer
+     *
+     * @throws \Exception
+     */
     public function __construct($configuration_filename, $sanitizer)
     {
         $this->rules = new ConfigLoader($configuration_filename);
         $this->sanitizer = $sanitizer;
     }
 
+    /**
+     * @param $blockType
+     * @param $blockData
+     *
+     * @return array|bool
+     * @throws \Exception
+     */
     public function validate_block($blockType, $blockData)
     {
         /**
@@ -33,13 +51,19 @@ class BlockHandler
 
         $rule = $this->rules->tools[$blockType];
 
-//        echo "\n$blockType\n=========";
         return [
             'type' => $blockType,
             'data' => $this->validate($rule, $blockData)
         ];
     }
 
+    /**
+     * @param $rule
+     * @param $blockData
+     *
+     * @return mixed
+     * @throws \Exception
+     */
     public function validate($rule, $blockData) {
         foreach ($rule as $key => $value) {
             /**
@@ -65,42 +89,53 @@ class BlockHandler
             if (is_integer($key)) {
                 $key = "-";
             }
+
             $elementType = $rule[$key]['type'];
-//            echo "\nProcessing: $key ($elementType)";
 
             if ($elementType == 'const') {
                 if (!in_array($value, $rule[$key]['canBeOnly'])) {
                     throw new \Exception("$value const is invalid");
                 }
-            }
-            else if ($elementType == 'string') {
-                $allowedTags = isset($rule[$key]['allowedTags'])?$rule[$key]['allowedTags']:'';
+            } elseif ($elementType == 'string') {
+                $allowedTags = isset($rule[$key]['allowedTags']) ? $rule[$key]['allowedTags'] : '';
                 $blockData[$key] = $this->getPurifier($allowedTags)->purify($value);
-            }
-            else if ($elementType == 'int') {
+            } elseif ($elementType == 'int') {
                 if (!is_integer($value)) {
                     throw new \Exception("$value is not integer");
                 }
-            }
-            else if ($elementType == 'array') {
+            } elseif ($elementType == 'array') {
                 $blockData[$key] = $this->validate($rule[$key]['data'], $value);
-            }
-            else {
+            } else {
                 throw new \Exception("Unhandled type: $elementType");
             }
         }
-//        echo "\n";
+
         return $blockData;
     }
 
-    private function getPurifier($allowedTags) {
+    /**
+     * @param $allowedTags
+     *
+     * @return \HTMLPurifier
+     */
+    private function getPurifier($allowedTags)
+    {
         $sanitizer = clone $this->sanitizer;
         $sanitizer->set('HTML.Allowed', $allowedTags);
+
         $purifier = new \HTMLPurifier($sanitizer);
+
         return $purifier;
     }
 
-    private static function get($key, $default=null) {
+    /**
+     * @param      $key
+     * @param null $default
+     *
+     * @return null
+     */
+    private static function get($key, $default = null)
+    {
         return isset($key) ? $key : $default;
     }
 }

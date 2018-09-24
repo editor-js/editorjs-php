@@ -1,4 +1,5 @@
 <?php
+
 use CodexEditor\CodexEditor;
 
 class BlockHandlerTest extends TestCase
@@ -14,16 +15,20 @@ class BlockHandlerTest extends TestCase
     public function testSanitizing()
     {
         $data = '{"blocks":[{"type":"header","data":{"text":"CodeX <b>Editor</b>","level":2}}]}';
+
         $editor = new CodexEditor($data, TESTS_DIR . "/samples/test-config.json");
         $result = $editor->sanitize();
+
         $this->assertEquals($result[0]['data']['text'], 'CodeX Editor');
     }
 
     public function testSanitizingAllowedTags()
     {
         $data = '{"blocks":[{"type":"header","data":{"text":"<a>CodeX</a> <b>Editor</b>","level":2}}]}';
+
         $editor = new CodexEditor($data, TESTS_DIR . "/samples/test-config-allowed.json");
         $result = $editor->sanitize();
+
         $this->assertEquals($result[0]['data']['text'], 'CodeX <b>Editor</b>');
     }
 

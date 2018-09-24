@@ -1,4 +1,5 @@
 <?php
+
 use CodexEditor\ConfigLoader;
 
 class ConfigTest extends TestCase
@@ -11,6 +12,7 @@ class ConfigTest extends TestCase
         $callable = function() {
             new ConfigLoader("");
         };
+
         $this->assertException($callable, Exception::class, null, 'Configuration filename is empty');
     }
 
@@ -19,6 +21,7 @@ class ConfigTest extends TestCase
         $callable = function() {
             new ConfigLoader("configuration.file");
         };
+
         $this->assertException($callable, Exception::class, null, 'Configuration file not found');
     }
 
@@ -27,6 +30,7 @@ class ConfigTest extends TestCase
         $callable = function() {
             new ConfigLoader(TESTS_DIR . "/samples/empty-config.json");
         };
+
         $this->assertException($callable, Exception::class, null, 'Configuration file is empty');
     }
 

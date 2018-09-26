@@ -69,9 +69,9 @@ class BlockHandler
             /**
              * Check if required params are presented in data
              */
-            if (($key != "-") && (isset($value['required'])?$value['required']:true)) {
+            if (($key != "-") && (isset($value['required']) ? $value['required'] : true)) {
                 if (!isset($blockData[$key])) {
-                    throw new \Exception("Not found required param $key");
+                    throw new \Exception("Not found required param `$key`");
                 }
             }
         }
@@ -81,7 +81,7 @@ class BlockHandler
              * Check if there is not extra params
              */
             if (!is_integer($key) && !isset($rule[$key])) {
-                throw new \Exception("Found extra param $key");
+                throw new \Exception("Found extra param `$key`");
             }
         }
 
@@ -92,21 +92,36 @@ class BlockHandler
 
             $elementType = $rule[$key]['type'];
 
-            if ($elementType == 'const') {
-                if (!in_array($value, $rule[$key]['canBeOnly'])) {
-                    throw new \Exception("$value const is invalid");
-                }
-            } elseif ($elementType == 'string') {
-                $allowedTags = isset($rule[$key]['allowedTags']) ? $rule[$key]['allowedTags'] : '';
-                $blockData[$key] = $this->getPurifier($allowedTags)->purify($value);
-            } elseif ($elementType == 'int') {
-                if (!is_integer($value)) {
-                    throw new \Exception("$value is not integer");
-                }
-            } elseif ($elementType == 'array') {
-                $blockData[$key] = $this->validate($rule[$key]['data'], $value);
-            } else {
-                throw new \Exception("Unhandled type: $elementType");
+            switch ($elementType) {
+                case 'const':
+                    if (!in_array($value, $rule[$key]['canBeOnly'])) {
+                        throw new \Exception("`$value` const is invalid");
+                    }
+                    break;
+
+                case 'string':
+                    $allowedTags = isset($rule[$key]['allowedTags']) ? $rule[$key]['allowedTags'] : '';
+                    $blockData[$key] = $this->getPurifier($allowedTags)->purify($value);
+                    break;
+
+                case 'integer':
+                case 'int':
+                    if (!is_integer($value)) {
+                        throw new \Exception("`$value` is not integer");
+                    }
+                    break;
+
+                case 'array':
+                    $blockData[$key] = $this->validate($rule[$key]['data'], $value);
+                    break;
+
+                case 'boolean':
+                case 'bool':
+                    $blockData[$key] = boolval($value);
+                    break;
+
+                default:
+                    throw new \Exception("Unhandled type `$elementType`");
             }
         }
 

@@ -18,7 +18,7 @@
     },
     "list": {
       "style": {
-        "type": "const",
+        "type": "string",
         "canBeOnly": ["ordered", "numbered"]
       },
       "items": {
@@ -39,7 +39,7 @@
         "type": "string"
       },
       "alignment": {
-        "type": "const",
+        "type": "string",
         "canBeOnly": ["left", "right"]
       }
     }

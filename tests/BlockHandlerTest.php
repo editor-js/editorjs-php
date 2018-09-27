@@ -24,11 +24,11 @@ class BlockHandlerTest extends TestCase
 
     public function testSanitizingAllowedTags()
     {
-        $data = '{"blocks":[{"type":"header","data":{"text":"<a>CodeX</a> <b>Editor</b>","level":2}}]}';
+        $data = '{"blocks":[{"type":"header","data":{"text":"<a>CodeX</a> <b>Editor</b> <a href=\"https://ifmo.su\">ifmo.su</a>","level":2}}]}';
 
         $editor = new CodexEditor($data, TESTS_DIR . "/samples/test-config-allowed.json");
         $result = $editor->sanitize();
 
-        $this->assertEquals($result[0]['data']['text'], 'CodeX <b>Editor</b>');
+        $this->assertEquals($result[0]['data']['text'], '<a>CodeX</a> <b>Editor</b> <a href="https://ifmo.su" target="_blank" rel="noreferrer noopener">ifmo.su</a>');
     }
 }

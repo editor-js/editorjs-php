@@ -4,7 +4,7 @@
       "text": {
         "type": "string",
         "required": true,
-        "allowedTags": "i,b,u"
+        "allowedTags": "i,b,u,a[href]"
       },
       "level": {
         "type": "int"
@@ -18,7 +18,7 @@
     },
     "list": {
       "style": {
-        "type": "const",
+        "type": "string",
         "canBeOnly": ["ordered", "numbered"]
       },
       "items": {
@@ -32,14 +32,14 @@
       }
     },
     "quote": {
-      "quote": {
+      "text": {
         "type": "string"
       },
       "caption": {
         "type": "string"
       },
-      "alignment": {
-        "type": "const",
+      "size": {
+        "type": "string",
         "canBeOnly": ["left", "right"]
       }
     }

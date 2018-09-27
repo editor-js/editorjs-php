@@ -95,13 +95,13 @@ class BlockHandler
 
             $elementType = $rule[$key]['type'];
 
-            switch ($elementType) {
-                case 'const':
-                    if (!in_array($value, $rule[$key]['canBeOnly'])) {
-                        throw new \Exception("`$value` const is invalid");
-                    }
-                    break;
+            if (isset($rule[$key]['canBeOnly'])) {
+                if (!in_array($value, $rule[$key]['canBeOnly'])) {
+                    throw new \Exception("`$value` const is invalid");
+                }
+            }
 
+            switch ($elementType) {
                 case 'string':
                     $allowedTags = isset($rule[$key]['allowedTags']) ? $rule[$key]['allowedTags'] : '';
                     $blockData[$key] = $this->getPurifier($allowedTags)->purify($value);

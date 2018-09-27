@@ -3,26 +3,18 @@
     "type": "library",
     "description": "Codex Editor server side example",
     "license": "MIT",
-    "version": "2.0.0",
+    "version": "1.1.4",
     "authors": [
         {
-            "name": "CodeX Team",
-            "email": "team@ifmo.su"
+            "name": "khaydarov",
+            "email": "murod.haydarov@inbox.ru"
         }
     ],
     "require": {
         "php": ">=5.6",
         "ezyang/htmlpurifier": "^4.8"
     },
-    "require-dev": {
-        "phpunit/phpunit": "5.4.*",
-        "friendsofphp/php-cs-fixer": "^2.13"
-    },
     "autoload": {
         "psr-4": {"CodexEditor\\": "CodexEditor"}
-    },
-    "scripts": {
-        "test": "vendor/bin/phpunit",
-        "csfix": "vendor/bin/php-cs-fixer fix --verbose"
     }
 }

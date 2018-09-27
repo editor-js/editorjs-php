@@ -19,33 +19,68 @@ Add this line at the top of your PHP script
 use \CodexEditor\CodexEditor;
 ```
 
-this line allows you to get editors class that has such methods:
+this line allows you to get editors class that has the following method:
 
-`getBlocks` - returns block data as Array
-`getData` - return JSON string that can be recorded
+`sanitize` - return JSON string that can be recorded
 
 # Basic usage
 
 You can get data from editor and send as param to editor's server validator like
 
 ```php
-$editor = new CodexEditor( $JSONData );
-$cleanData = $editor->getData();
+$editor = new CodexEditor( $JSONData, $JSONConfigurationData );
+$cleanData = $editor->sanitize();
 ```
 
-now `$cleanData` is ready to record. 
+`$JSONData` — raw string JSON with data from CodeX Editor frontend.
+
+`$JSONConfigurationData` — string JSON with CodeX Editor tools configuration (see an example in the following paragraph).
+
+`$cleanData` — array of block data objects which are ready to be recorded. 
+
+# Configuration file
+
+You can configure validation rules for different types of CodeX Editor tools.
+
+Sample validation rule set:
+
+```$json
+{
+  "tools": {
+    "header": {
+      "text": {
+        "type": "string",
+        "required": true,
+        "allowedTags": "b,i,a[href]"
+      },
+      "level": {
+        "type": "int",
+        "canBeOnly: [2, 3, 4]
+      }
+    }
+  }
+}
+```
+
+Where:
+
+`tools` — array of supported CodeX Editor tools.
+
+`header` — defines `header` tool settings.
+
+`text` and `level` — parameters in `header` tool structure.
+ 
+`text` is a **required** *string*, which will be sanitized except *b*, *i* and *a[href]* tags.  
+
+`level` is an **optional** *integer* that can be only 0, 1 or 2.
+
+`allowedTags` param should follow [HTMLPurifier](https://github.com/ezyang/htmlpurifier]) format.
+
+Another configuration example: [/tests/samples/test-config-allowed.json](/tests/samples/test-config-allowed.json)
 
 # Make Tools
 
-If you made client plugin for Codex Editor then you should make your own Tool to validate on server-side.
-Put your class with tool-name in `CodexEditor\Tools\`
-
-Your class should extend abstract `Base` class that has abstract methods such as:
-`initialize`, `validate`, `sanitize` - that must be defined in your tool
-
-If you want your plugin to have an oportunity to use HTMLpurifier library,
-your class must implement basic `HTMLPurifyable` interface
-
+If you made client plugin for Codex Editor then you should create configuration rule for your own Tool to validate on server-side.
 
 ## Repository 
 <a href="https://github.com/codex-team/codex.editor.backend/">https://github.com/codex-team/codex.editor.backend/</a>

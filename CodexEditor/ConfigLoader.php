@@ -12,7 +12,7 @@ class ConfigLoader
     public $tools = [];
 
     /**
-     * ConfigLoader constructor.
+     * ConfigLoader constructor
      *
      * @param string $configuration – configuration data
      *

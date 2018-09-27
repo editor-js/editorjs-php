@@ -7,7 +7,8 @@
         "allowedTags": "i,b,u,a[href]"
       },
       "level": {
-        "type": "int"
+        "type": "int",
+        "canBeOnly": [2, 3, 4]
       }
     },
     "paragraph": {

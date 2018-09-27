@@ -22,7 +22,7 @@ class BlockHandler
     private $sanitizer;
 
     /**
-     * BlockHandler constructor.
+     * BlockHandler constructor
      *
      * @param \HTMLPurifier_Config $sanitizer
      * @param mixed                $configuration
@@ -113,7 +113,7 @@ class BlockHandler
              */
             if (isset($rule['canBeOnly'])) {
                 if (!in_array($value, $rule['canBeOnly'])) {
-                    throw new \Exception("`$value` has invalid value. Check canBeOnly param.");
+                    throw new \Exception("Option '$key' with value `$value` has invalid value. Check canBeOnly param.");
                 }
             }
 
@@ -151,6 +151,8 @@ class BlockHandler
     }
 
     /**
+     * Create and return new default purifier
+     *
      * @param $allowedTags
      *
      * @return \HTMLPurifier
@@ -163,16 +165,5 @@ class BlockHandler
         $purifier = new \HTMLPurifier($sanitizer);
 
         return $purifier;
-    }
-
-    /**
-     * @param      $key
-     * @param null $default
-     *
-     * @return bool
-     */
-    private static function get($key, $default = null)
-    {
-        return isset($key) ? $key : $default;
     }
 }

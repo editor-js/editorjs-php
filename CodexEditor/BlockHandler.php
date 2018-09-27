@@ -22,7 +22,6 @@ class BlockHandler
     /**
      * BlockHandler constructor.
      *
-     * @param string               $configuration_filename
      * @param \HTMLPurifier_Config $sanitizer
      * @param mixed                $configuration
      *

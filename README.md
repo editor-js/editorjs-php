@@ -21,7 +21,7 @@ use \CodexEditor\CodexEditor;
 
 this line allows you to get editors class that has the following method:
 
-`sanitize` - return JSON string that can be recorded
+`sanitize` - return array of sanitized blocks
 
 # Basic usage
 
@@ -34,13 +34,13 @@ $cleanData = $editor->sanitize();
 
 `$JSONData` — raw string JSON with data from CodeX Editor frontend.
 
-`$JSONConfigurationData` — string JSON with CodeX Editor tools configuration (see an example in the following paragraph).
+`$JSONConfigurationData` — JSON string with CodeX Editor tools configuration (see an example in the following paragraph).
 
 `$cleanData` — array of block data objects which are ready to be recorded. 
 
 # Configuration file
 
-You can configure validation rules for different types of CodeX Editor tools.
+You can configure validation rules for different types of CodeX Editor tools (header, paragraph, list, quote and other).
 
 Sample validation rule set:
 
@@ -80,7 +80,7 @@ Another configuration example: [/tests/samples/test-config-allowed.json](/tests/
 
 # Make Tools
 
-If you made client plugin for Codex Editor then you should create configuration rule for your own Tool to validate on server-side.
+If you connect a new Tool on the frontend-side, then you should create a configuration rule for that Tool to validate it on server-side.
 
 ## Repository 
 <a href="https://github.com/codex-team/codex.editor.backend/">https://github.com/codex-team/codex.editor.backend/</a>

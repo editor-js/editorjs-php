@@ -51,7 +51,7 @@ Sample validation rule set:
       },
       "level": {
         "type": "int",
-        "canBeOnly: [0, 1, 2]
+        "canBeOnly: [2, 3, 4]
       }
     }
   }

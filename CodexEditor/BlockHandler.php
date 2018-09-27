@@ -9,6 +9,9 @@ namespace CodexEditor;
  */
 class BlockHandler
 {
+    /**
+     * Default pseudo-key for numerical arrays
+     */
     const DEFAULT_ARRAY_KEY = "-";
 
     /**
@@ -25,7 +28,7 @@ class BlockHandler
      * BlockHandler constructor
      *
      * @param \HTMLPurifier_Config $sanitizer
-     * @param mixed                $configuration
+     * @param string               $configuration
      *
      * @throws \Exception
      */
@@ -38,8 +41,8 @@ class BlockHandler
     /**
      * Validate block for correctness and apply sanitizing rules according to the block type
      *
-     * @param $blockType
-     * @param $blockData
+     * @param string $blockType
+     * @param array  $blockData
      *
      * @throws \Exception
      *
@@ -65,12 +68,12 @@ class BlockHandler
     /**
      * Apply validation rule to the data block
      *
-     * @param $rules
-     * @param $blockData
+     * @param array $rules
+     * @param array $blockData
      *
      * @throws \Exception
      *
-     * @return mixed
+     * @return array
      */
     public function validate($rules, $blockData)
     {

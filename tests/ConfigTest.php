@@ -9,7 +9,7 @@ class ConfigTest extends TestCase
 
     public function testConfigFilenameEmpty()
     {
-        $callable = function() {
+        $callable = function () {
             new ConfigLoader("");
         };
 
@@ -18,7 +18,7 @@ class ConfigTest extends TestCase
 
     public function testConfigNotFound()
     {
-        $callable = function() {
+        $callable = function () {
             new ConfigLoader("configuration.file");
         };
 
@@ -27,7 +27,7 @@ class ConfigTest extends TestCase
 
     public function testConfigEmpty()
     {
-        $callable = function() {
+        $callable = function () {
             new ConfigLoader(TESTS_DIR . "/samples/empty-config.json");
         };
 
@@ -38,5 +38,4 @@ class ConfigTest extends TestCase
     {
         $config = new ConfigLoader(TESTS_DIR . "/samples/test-config.json");
     }
-
 }

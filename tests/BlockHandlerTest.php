@@ -31,5 +31,4 @@ class BlockHandlerTest extends TestCase
 
         $this->assertEquals($result[0]['data']['text'], 'CodeX <b>Editor</b>');
     }
-
 }

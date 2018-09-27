@@ -95,7 +95,6 @@ class CodexEditor
                 throw new \Exception('Block must be an Array');
             }
         }
-
     }
 
     /**

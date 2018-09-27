@@ -9,7 +9,7 @@ namespace CodexEditor;
  */
 class ConfigLoader
 {
-    public $tools = array();
+    public $tools = [];
 
     /**
      * ConfigLoader constructor.

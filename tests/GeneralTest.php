@@ -12,12 +12,12 @@ class GeneralTest extends TestCase
 
     public function testValidData()
     {
-        new CodexEditor( GeneralTest::SAMPLE_VALID_DATA, GeneralTest::CONFIG );
+        new CodexEditor(GeneralTest::SAMPLE_VALID_DATA, GeneralTest::CONFIG);
     }
 
     public function testNullInput()
     {
-        $callable = function() {
+        $callable = function () {
             new CodexEditor('', GeneralTest::CONFIG);
         };
 
@@ -26,7 +26,7 @@ class GeneralTest extends TestCase
 
     public function testEmptyArray()
     {
-        $callable = function() {
+        $callable = function () {
             new CodexEditor('{}', GeneralTest::CONFIG);
         };
 
@@ -35,7 +35,7 @@ class GeneralTest extends TestCase
 
     public function testWrongJson()
     {
-        $callable = function() {
+        $callable = function () {
             new CodexEditor('{[{', GeneralTest::CONFIG);
         };
 
@@ -44,7 +44,7 @@ class GeneralTest extends TestCase
 
     public function testItemsMissed()
     {
-        $callable = function() {
+        $callable = function () {
             new CodexEditor('{"s":""}', GeneralTest::CONFIG);
         };
 
@@ -53,7 +53,7 @@ class GeneralTest extends TestCase
 
     public function testUnicode()
     {
-        $callable = function() {
+        $callable = function () {
             new CodexEditor('{"s":"😀"}', GeneralTest::CONFIG);
         };
 
@@ -62,7 +62,7 @@ class GeneralTest extends TestCase
 
     public function testInvalidBlock()
     {
-        $callable = function() {
+        $callable = function () {
             new CodexEditor('{"blocks":""}', GeneralTest::CONFIG);
         };
 
@@ -71,11 +71,10 @@ class GeneralTest extends TestCase
 
     public function testBlocksContent()
     {
-        $callable = function() {
+        $callable = function () {
             new CodexEditor('{"blocks":["",""]}', GeneralTest::CONFIG);
         };
 
         $this->assertException($callable, Exception::class, null, 'Block must be an Array');
     }
-
 }

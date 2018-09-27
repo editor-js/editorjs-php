@@ -22,7 +22,7 @@ class BlockHandler
     /**
      * BlockHandler constructor.
      *
-     * @param string $configuration_filename
+     * @param string               $configuration_filename
      * @param \HTMLPurifier_Config $sanitizer
      *
      * @throws \Exception
@@ -37,8 +37,9 @@ class BlockHandler
      * @param $blockType
      * @param $blockData
      *
-     * @return array|bool
      * @throws \Exception
+     *
+     * @return array|bool
      */
     public function validate_block($blockType, $blockData)
     {
@@ -61,10 +62,12 @@ class BlockHandler
      * @param $rule
      * @param $blockData
      *
-     * @return mixed
      * @throws \Exception
+     *
+     * @return mixed
      */
-    public function validate($rule, $blockData) {
+    public function validate($rule, $blockData)
+    {
         foreach ($rule as $key => $value) {
             /**
              * Check if required params are presented in data
@@ -147,7 +150,7 @@ class BlockHandler
      * @param      $key
      * @param null $default
      *
-     * @return null
+     * @return bool
      */
     private static function get($key, $default = null)
     {

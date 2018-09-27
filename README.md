@@ -23,13 +23,17 @@ this line allows you to get editors class that has the following method:
 
 `sanitize` - return array of sanitized blocks
 
+`validate` - check if blocks structure is valid
+
 # Basic usage
 
 You can get data from editor and send as param to editor's server validator like
 
 ```php
 $editor = new CodexEditor( $JSONData, $JSONConfigurationData );
-$cleanData = $editor->sanitize();
+if ($editor->validate()) {
+    $cleanData = $editor->sanitize();
+}
 ```
 
 `$JSONData` — raw string JSON with data from CodeX Editor frontend.

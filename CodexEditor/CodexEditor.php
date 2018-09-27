@@ -126,12 +126,28 @@ class CodexEditor
         $sanitizedBlocks = [];
 
         foreach ($this->blocks as $block) {
-            $validatedBlock = $this->handler->validate_block($block['type'], $block['data']);
-            if (!empty($validatedBlock)) {
-                array_push($sanitizedBlocks, $validatedBlock);
+            $sanitizedBlock = $this->handler->sanitize_block($block['type'], $block['data']);
+            if (!empty($sanitizedBlock)) {
+                array_push($sanitizedBlocks, $sanitizedBlock);
             }
         }
 
         return $sanitizedBlocks;
+    }
+
+    /**
+     * Validate blocks structure according to the Handler's rules.
+     *
+     * @return bool
+     */
+    public function validate()
+    {
+        foreach ($this->blocks as $block) {
+            if (!$this->handler->validate_block($block['type'], $block['data'])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

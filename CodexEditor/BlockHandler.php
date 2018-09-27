@@ -39,7 +39,31 @@ class BlockHandler
     }
 
     /**
-     * Validate block for correctness and apply sanitizing rules according to the block type
+     * Validate block for correctness
+     *
+     * @param string $blockType
+     * @param array  $blockData
+     *
+     * @throws \Exception
+     *
+     * @return bool
+     */
+    public function validate_block($blockType, $blockData)
+    {
+        /**
+         * Default action for blocks that are not mentioned in a configuration
+         */
+        if (!array_key_exists($blockType, $this->rules->tools)) {
+            throw new \Exception("Tool `$blockType` not found in the configuration");
+        }
+
+        $rule = $this->rules->tools[$blockType];
+
+        return $this->validate($rule, $blockData);
+    }
+
+    /**
+     * Apply sanitizing rules according to the block type
      *
      * @param string $blockType
      * @param array  $blockData
@@ -48,20 +72,13 @@ class BlockHandler
      *
      * @return array|bool
      */
-    public function validate_block($blockType, $blockData)
+    public function sanitize_block($blockType, $blockData)
     {
-        /**
-         * Default action for blocks that are not mentioned in a configuration
-         */
-        if (!array_key_exists($blockType, $this->rules->tools)) {
-            return true;
-        }
-
         $rule = $this->rules->tools[$blockType];
 
         return [
             'type' => $blockType,
-            'data' => $this->validate($rule, $blockData)
+            'data' => $this->sanitize($rule, $blockData)
         ];
     }
 
@@ -73,7 +90,7 @@ class BlockHandler
      *
      * @throws \Exception
      *
-     * @return array
+     * @return bool
      */
     public function validate($rules, $blockData)
     {
@@ -125,8 +142,6 @@ class BlockHandler
              */
             switch ($elementType) {
                 case 'string':
-                    $allowedTags = isset($rule['allowedTags']) ? $rule['allowedTags'] : '';
-                    $blockData[$key] = $this->getPurifier($allowedTags)->purify($value);
                     break;
 
                 case 'integer':
@@ -137,7 +152,7 @@ class BlockHandler
                     break;
 
                 case 'array':
-                    $blockData[$key] = $this->validate($rule['data'], $value);
+                    $this->validate($rule['data'], $value);
                     break;
 
                 case 'boolean':
@@ -147,6 +162,44 @@ class BlockHandler
 
                 default:
                     throw new \Exception("Unhandled type `$elementType`");
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Sanitize strings in the data block
+     *
+     * @param array $rules
+     * @param array $blockData
+     *
+     * @throws \Exception
+     *
+     * @return array
+     */
+    public function sanitize($rules, $blockData)
+    {
+        /**
+         * Sanitize every key in data block
+         */
+        foreach ($blockData as $key => $value) {
+            $rule = $rules[$key];
+            $elementType = $rule['type'];
+
+            /**
+             * Sanitize string with Purifier
+             */
+            if ($elementType == 'string') {
+                $allowedTags = isset($rule['allowedTags']) ? $rule['allowedTags'] : '';
+                $blockData[$key] = $this->getPurifier($allowedTags)->purify($value);
+            }
+
+            /**
+             * Sanitize nested elements
+             */
+            if ($elementType == 'array') {
+                $blockData[$key] = $this->sanitize($rule['data'], $value);
             }
         }
 

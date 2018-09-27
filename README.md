@@ -34,9 +34,9 @@ $cleanData = $editor->sanitize();
 
 `$JSONData` — raw string JSON with data from CodeX Editor frontend.
 
-`$JSONConfigurationData` — string JSON with CodeX Editor tools configuration (see example in the following paragraph).
+`$JSONConfigurationData` — string JSON with CodeX Editor tools configuration (see an example in the following paragraph).
 
-`$cleanData` is an array of block data objects which are ready to record. 
+`$cleanData` — array of block data objects which are ready to be recorded. 
 
 # Configuration file
 
@@ -70,7 +70,7 @@ Where:
 
 `text` and `level` — parameters in `header` tool structure.
  
-`text` is a **required** *string*, which will be sanitized except b, i and a[href] tags.  
+`text` is a **required** *string*, which will be sanitized except *b*, *i* and *a[href]* tags.  
 
 `level` is an **optional** *integer* that can be only 0, 1 or 2.
 

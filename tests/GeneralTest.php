@@ -21,7 +21,7 @@ class GeneralTest extends TestCase
             new CodexEditor('', GeneralTest::CONFIG);
         };
 
-        $this->assertException($callable, Exception::class, null, 'Wrong JSON format: Syntax error');
+        $this->assertException($callable, Exception::class, null, 'JSON is empty');
     }
 
     public function testEmptyArray()

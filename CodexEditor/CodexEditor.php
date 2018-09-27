@@ -44,6 +44,13 @@ class CodexEditor
         $this->handler = new BlockHandler($configuration_filename, $this->sanitizer);
 
         /**
+         * Check if json string is empty
+         */
+        if (empty($json)) {
+            throw new \Exception('JSON is empty');
+        }
+
+        /**
          * Check input data
          */
         $data = json_decode($json, true);

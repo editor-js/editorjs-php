@@ -29,6 +29,8 @@ class ConfigLoader
     }
 
     /**
+     * Load settings for tools from configuration
+     *
      * @param array $config
      *
      * @throws \Exception
@@ -36,12 +38,12 @@ class ConfigLoader
     private function loadTools($config)
     {
         if (!isset($config['tools'])) {
-            throw new \Exception('Tools not found in configuration file');
+            throw new \Exception('Tools not found in configuration');
         }
 
         foreach ($config['tools'] as $toolName => $toolData) {
             if (isset($this->tools[$toolName])) {
-                throw new \Exception("Duplicate tool $toolName in configuration file");
+                throw new \Exception("Duplicate tool $toolName in configuration");
             }
 
             $this->tools[$toolName] = $this->loadTool($toolData);
@@ -49,6 +51,8 @@ class ConfigLoader
     }
 
     /**
+     * Load settings for tool
+     *
      * @param array $data
      *
      * @return array

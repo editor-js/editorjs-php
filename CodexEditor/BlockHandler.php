@@ -9,6 +9,8 @@ namespace CodexEditor;
  */
 class BlockHandler
 {
+    const DEFAULT_ARRAY_KEY = "-";
+
     /**
      * @var ConfigLoader|null
      */
@@ -34,6 +36,8 @@ class BlockHandler
     }
 
     /**
+     * Validate block for correctness and apply sanitizing rules according to the block type
+     *
      * @param $blockType
      * @param $blockData
      *
@@ -59,63 +63,78 @@ class BlockHandler
     }
 
     /**
-     * @param $rule
+     * Apply validation rule to the data block
+     *
+     * @param $rules
      * @param $blockData
      *
      * @throws \Exception
      *
      * @return mixed
      */
-    public function validate($rule, $blockData)
+    public function validate($rules, $blockData)
     {
-        foreach ($rule as $key => $value) {
-            /**
-             * Check if required params are presented in data
-             */
-            if (($key != "-") && (isset($value['required']) ? $value['required'] : true)) {
+        /**
+         * Make sure that every required param exists in data block
+         */
+        foreach ($rules as $key => $value) {
+            if (($key != BlockHandler::DEFAULT_ARRAY_KEY) && (isset($value['required']) ? $value['required'] : true)) {
                 if (!isset($blockData[$key])) {
                     throw new \Exception("Not found required param `$key`");
                 }
             }
         }
 
+        /**
+         * Check if there is not extra params (not mentioned in configuration rule)
+         */
         foreach ($blockData as $key => $value) {
-            /**
-             * Check if there is not extra params
-             */
-            if (!is_integer($key) && !isset($rule[$key])) {
+            if (!is_integer($key) && !isset($rules[$key])) {
                 throw new \Exception("Found extra param `$key`");
             }
         }
 
+        /**
+         * Validate every key in data block
+         */
         foreach ($blockData as $key => $value) {
+            /**
+             * PHP Array has integer keys
+             */
             if (is_integer($key)) {
-                $key = "-";
+                $key = BlockHandler::DEFAULT_ARRAY_KEY;
             }
 
-            $elementType = $rule[$key]['type'];
+            $rule = $rules[$key];
+            $elementType = $rule['type'];
 
-            if (isset($rule[$key]['canBeOnly'])) {
-                if (!in_array($value, $rule[$key]['canBeOnly'])) {
-                    throw new \Exception("`$value` const is invalid");
+            /**
+             * Process canBeOnly rule
+             */
+            if (isset($rule['canBeOnly'])) {
+                if (!in_array($value, $rule['canBeOnly'])) {
+                    throw new \Exception("`$value` has invalid value. Check canBeOnly param.");
                 }
             }
 
+            /**
+             * Validate element types
+             */
             switch ($elementType) {
                 case 'string':
-                    $allowedTags = isset($rule[$key]['allowedTags']) ? $rule[$key]['allowedTags'] : '';
+                    $allowedTags = isset($rule['allowedTags']) ? $rule['allowedTags'] : '';
                     $blockData[$key] = $this->getPurifier($allowedTags)->purify($value);
                     break;
 
                 case 'integer':
                 case 'int':
                     if (!is_integer($value)) {
-                        throw new \Exception("`$value` is not integer");
+                        throw new \Exception("`$value` is not an integer");
                     }
                     break;
 
                 case 'array':
-                    $blockData[$key] = $this->validate($rule[$key]['data'], $value);
+                    $blockData[$key] = $this->validate($rule['data'], $value);
                     break;
 
                 case 'boolean':

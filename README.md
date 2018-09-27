@@ -28,11 +28,15 @@ this line allows you to get editors class that has the following method:
 You can get data from editor and send as param to editor's server validator like
 
 ```php
-$editor = new CodexEditor( $JSONData, $configurationData );
+$editor = new CodexEditor( $JSONData, $JSONConfigurationData );
 $cleanData = $editor->sanitize();
 ```
 
-now `$cleanData` is ready to record. 
+`$JSONData` — raw string JSON with data from CodeX Editor frontend.
+
+`$JSONConfigurationData` — string JSON with CodeX Editor tools configuration (see example in the following paragraph).
+
+`$cleanData` is an array of block data objects which are ready to record. 
 
 # Configuration file
 

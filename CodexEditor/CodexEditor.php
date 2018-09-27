@@ -117,7 +117,7 @@ class CodexEditor
     }
 
     /**
-     * Sanitize array of blocks according to the Handler's rules.
+     * Sanitize and return array of blocks according to the Handler's rules.
      *
      * @return array
      */

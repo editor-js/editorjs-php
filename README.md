@@ -76,7 +76,7 @@ Where:
 
 `allowedTags` param should follow [HTMLPurifier](https://github.com/ezyang/htmlpurifier]) format.
 
-Another configuration example: [https://github.com/codex-team/codex.editor.backend/blob/beta-editor/tests/samples/test-config-allowed.json](https://github.com/codex-team/codex.editor.backend/blob/beta-editor/tests/samples/test-config-allowed.json)
+Another configuration example: [/tests/samples/test-config-allowed.json](/tests/samples/test-config-allowed.json)
 
 # Make Tools
 

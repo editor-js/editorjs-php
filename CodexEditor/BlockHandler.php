@@ -24,12 +24,13 @@ class BlockHandler
      *
      * @param string               $configuration_filename
      * @param \HTMLPurifier_Config $sanitizer
+     * @param mixed                $configuration
      *
      * @throws \Exception
      */
-    public function __construct($configuration_filename, $sanitizer)
+    public function __construct($configuration, $sanitizer)
     {
-        $this->rules = new ConfigLoader($configuration_filename);
+        $this->rules = new ConfigLoader($configuration);
         $this->sanitizer = $sanitizer;
     }
 

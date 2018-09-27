@@ -35,13 +35,14 @@ class CodexEditor
      *
      * @param string $json
      * @param string $configuration_filename
+     * @param mixed  $configuration
      *
      * @throws \Exception
      */
-    public function __construct($json, $configuration_filename)
+    public function __construct($json, $configuration)
     {
         $this->initPurifier();
-        $this->handler = new BlockHandler($configuration_filename, $this->sanitizer);
+        $this->handler = new BlockHandler($configuration, $this->sanitizer);
 
         /**
          * Check if json string is empty
@@ -98,7 +99,7 @@ class CodexEditor
     }
 
     /**
-     *
+     * Initialize HTML Purifier with default settings
      */
     private function initPurifier()
     {
@@ -116,6 +117,8 @@ class CodexEditor
     }
 
     /**
+     * Sanitize array of blocks according to the Handler's rules.
+     *
      * @return array
      */
     public function sanitize()
@@ -123,7 +126,10 @@ class CodexEditor
         $sanitizedBlocks = [];
 
         foreach ($this->blocks as $block) {
-            array_push($sanitizedBlocks, $this->handler->validate_block($block['type'], $block['data']));
+            $validatedBlock = $this->handler->validate_block($block['type'], $block['data']);
+            if (!empty($validatedBlock)) {
+                array_push($sanitizedBlocks, $validatedBlock);
+            }
         }
 
         return $sanitizedBlocks;

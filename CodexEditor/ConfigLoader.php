@@ -14,27 +14,17 @@ class ConfigLoader
     /**
      * ConfigLoader constructor.
      *
-     * @param string $config_file
+     * @param string $configuration – configuration data
      *
      * @throws \Exception
      */
-    public function __construct($config_file)
+    public function __construct($configuration)
     {
-        if (empty($config_file)) {
-            throw new \Exception("Configuration filename is empty");
+        if (empty($configuration)) {
+            throw new \Exception("Configuration data is empty");
         }
 
-        if (!file_exists($config_file)) {
-            throw new \Exception("Configuration file not found");
-        }
-
-        $content = file_get_contents($config_file);
-
-        if (empty($content)) {
-            throw new \Exception("Configuration file is empty");
-        }
-
-        $config = json_decode($content, true);
+        $config = json_decode($configuration, true);
         $this->loadTools($config);
     }
 

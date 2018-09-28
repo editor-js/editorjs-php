@@ -1,6 +1,7 @@
 <?php
 
 use CodexEditor\CodexEditor;
+use CodexEditor\CodexEditorException;
 use CodexEditor\ConfigLoader;
 
 /**
@@ -34,7 +35,7 @@ class GeneralTest extends TestCase
             new CodexEditor('', $this->config);
         };
 
-        $this->assertException($callable, Exception::class, null, 'JSON is empty');
+        $this->assertException($callable, CodexEditorException::class, null, 'JSON is empty');
     }
 
     public function testEmptyArray()
@@ -43,7 +44,7 @@ class GeneralTest extends TestCase
             new CodexEditor('{}', $this->config);
         };
 
-        $this->assertException($callable, Exception::class, null, 'Input array is empty');
+        $this->assertException($callable, CodexEditorException::class, null, 'Input array is empty');
     }
 
     public function testWrongJson()
@@ -52,7 +53,7 @@ class GeneralTest extends TestCase
             new CodexEditor('{[{', $this->config);
         };
 
-        $this->assertException($callable, Exception::class, null, 'Wrong JSON format: Syntax error');
+        $this->assertException($callable, CodexEditorException::class, null, 'Wrong JSON format: Syntax error');
     }
 
     public function testValidConfig()
@@ -66,7 +67,7 @@ class GeneralTest extends TestCase
             new CodexEditor('{"s":""}', $this->config);
         };
 
-        $this->assertException($callable, Exception::class, null, 'Field `blocks` is missing');
+        $this->assertException($callable, CodexEditorException::class, null, 'Field `blocks` is missing');
     }
 
     public function testUnicode()
@@ -75,7 +76,7 @@ class GeneralTest extends TestCase
             new CodexEditor('{"s":"😀"}', $this->config);
         };
 
-        $this->assertException($callable, Exception::class, null, 'Field `blocks` is missing');
+        $this->assertException($callable, CodexEditorException::class, null, 'Field `blocks` is missing');
     }
 
     public function testInvalidBlock()
@@ -84,7 +85,7 @@ class GeneralTest extends TestCase
             new CodexEditor('{"blocks":""}', $this->config);
         };
 
-        $this->assertException($callable, Exception::class, null, 'Blocks is not an array');
+        $this->assertException($callable, CodexEditorException::class, null, 'Blocks is not an array');
     }
 
     public function testBlocksContent()
@@ -93,6 +94,6 @@ class GeneralTest extends TestCase
             new CodexEditor('{"blocks":["",""]}', $this->config);
         };
 
-        $this->assertException($callable, Exception::class, null, 'Block must be an Array');
+        $this->assertException($callable, CodexEditorException::class, null, 'Block must be an Array');
     }
 }

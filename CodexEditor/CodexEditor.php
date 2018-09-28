@@ -34,10 +34,9 @@ class CodexEditor
      * Splits JSON string to separate blocks
      *
      * @param string $json
-     * @param string $configuration_filename
      * @param mixed  $configuration
      *
-     * @throws \Exception
+     * @throws CodexEditorException()
      */
     public function __construct($json, $configuration)
     {
@@ -48,7 +47,7 @@ class CodexEditor
          * Check if json string is empty
          */
         if (empty($json)) {
-            throw new \Exception('JSON is empty');
+            throw new CodexEditorException('JSON is empty');
         }
 
         /**
@@ -60,42 +59,47 @@ class CodexEditor
          * Handle decoding JSON error
          */
         if (json_last_error()) {
-            throw new \Exception('Wrong JSON format: ' . json_last_error_msg());
+            throw new CodexEditorException('Wrong JSON format: ' . json_last_error_msg());
         }
 
         /**
          * Check if data is null
          */
         if (is_null($data)) {
-            throw new \Exception('Input is null');
+            throw new CodexEditorException('Input is null');
         }
 
         /**
          * Count elements in data array
          */
         if (count($data) === 0) {
-            throw new \Exception('Input array is empty');
+            throw new CodexEditorException('Input array is empty');
         }
 
         /**
          * Check if blocks param is missing in data
          */
         if (!isset($data['blocks'])) {
-            throw new \Exception('Field `blocks` is missing');
+            throw new CodexEditorException('Field `blocks` is missing');
         }
 
 
         if (!is_array($data['blocks'])) {
-            throw new \Exception('Blocks is not an array');
+            throw new CodexEditorException('Blocks is not an array');
         }
 
         foreach ($data['blocks'] as $blockData) {
             if (is_array($blockData)) {
                 array_push($this->blocks, $blockData);
             } else {
-                throw new \Exception('Block must be an Array');
+                throw new CodexEditorException('Block must be an Array');
             }
         }
+
+        /**
+         * Validate blocks structure
+         */
+        $this->validateBlocks();
     }
 
     /**
@@ -126,7 +130,7 @@ class CodexEditor
         $sanitizedBlocks = [];
 
         foreach ($this->blocks as $block) {
-            $sanitizedBlock = $this->handler->sanitize_block($block['type'], $block['data']);
+            $sanitizedBlock = $this->handler->sanitizeBlock($block['type'], $block['data']);
             if (!empty($sanitizedBlock)) {
                 array_push($sanitizedBlocks, $sanitizedBlock);
             }
@@ -140,10 +144,10 @@ class CodexEditor
      *
      * @return bool
      */
-    public function validate()
+    public function validateBlocks()
     {
         foreach ($this->blocks as $block) {
-            if (!$this->handler->validate_block($block['type'], $block['data'])) {
+            if (!$this->handler->validateBlock($block['type'], $block['data'])) {
                 return false;
             }
         }

@@ -1,6 +1,7 @@
 <?php
 
 use CodexEditor\CodexEditor;
+use CodexEditor\CodexEditorException;
 
 /**
  * Class BlockHandlerTest
@@ -13,8 +14,7 @@ class BlockHandlerTest extends TestCase
 
     public function testLoad()
     {
-        $editor = new CodexEditor(BlockHandlerTest::SAMPLE_VALID_DATA, file_get_contents(TESTS_DIR . "/samples/test-config.json"));
-        $this->assertTrue($editor->validate());
+        new CodexEditor(BlockHandlerTest::SAMPLE_VALID_DATA, file_get_contents(TESTS_DIR . "/samples/test-config.json"));
     }
 
     public function testSanitizing()
@@ -22,7 +22,6 @@ class BlockHandlerTest extends TestCase
         $data = '{"blocks":[{"type":"header","data":{"text":"CodeX <b>Editor</b>","level":2}}]}';
 
         $editor = new CodexEditor($data, file_get_contents(TESTS_DIR . "/samples/test-config.json"));
-        $this->assertTrue($editor->validate());
         $result = $editor->sanitize();
 
         $this->assertEquals('CodeX Editor', $result[0]['data']['text']);
@@ -33,7 +32,6 @@ class BlockHandlerTest extends TestCase
         $data = '{"blocks":[{"type":"header","data":{"text":"<a>CodeX</a> <b>Editor</b> <a href=\"https://ifmo.su\">ifmo.su</a>","level":2}}]}';
 
         $editor = new CodexEditor($data, file_get_contents(TESTS_DIR . "/samples/test-config-allowed.json"));
-        $this->assertTrue($editor->validate());
         $result = $editor->sanitize();
 
         $this->assertEquals('<a>CodeX</a> <b>Editor</b> <a href="https://ifmo.su" target="_blank" rel="noreferrer noopener">ifmo.su</a>', $result[0]['data']['text']);
@@ -42,11 +40,9 @@ class BlockHandlerTest extends TestCase
     public function testCanBeOnly()
     {
         $callable = function () {
-            $editor = new CodexEditor('{"blocks":[{"type":"header","data":{"text":"test","level":5}}]}', file_get_contents(TESTS_DIR . "/samples/test-config-allowed.json"));
-            $this->assertTrue($editor->validate());
-            $editor->sanitize();
+            new CodexEditor('{"blocks":[{"type":"header","data":{"text":"test","level":5}}]}', file_get_contents(TESTS_DIR . "/samples/test-config-allowed.json"));
         };
 
-        $this->assertException($callable, Exception::class, null, 'Option \'level\' with value `5` has invalid value. Check canBeOnly param.');
+        $this->assertException($callable, CodexEditorException::class, null, 'Option \'level\' with value `5` has invalid value. Check canBeOnly param.');
     }
 }

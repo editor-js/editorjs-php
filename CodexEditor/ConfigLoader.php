@@ -16,12 +16,12 @@ class ConfigLoader
      *
      * @param string $configuration – configuration data
      *
-     * @throws \Exception
+     * @throws CodexEditorException
      */
     public function __construct($configuration)
     {
         if (empty($configuration)) {
-            throw new \Exception("Configuration data is empty");
+            throw new CodexEditorException("Configuration data is empty");
         }
 
         $config = json_decode($configuration, true);
@@ -33,17 +33,17 @@ class ConfigLoader
      *
      * @param array $config
      *
-     * @throws \Exception
+     * @throws CodexEditorException
      */
     private function loadTools($config)
     {
         if (!isset($config['tools'])) {
-            throw new \Exception('Tools not found in configuration');
+            throw new CodexEditorException('Tools not found in configuration');
         }
 
         foreach ($config['tools'] as $toolName => $toolData) {
             if (isset($this->tools[$toolName])) {
-                throw new \Exception("Duplicate tool $toolName in configuration");
+                throw new CodexEditorException("Duplicate tool $toolName in configuration");
             }
 
             $this->tools[$toolName] = $this->loadTool($toolData);

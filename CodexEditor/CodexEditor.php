@@ -125,7 +125,7 @@ class CodexEditor
      *
      * @return array
      */
-    public function sanitize()
+    public function getBlocks()
     {
         $sanitizedBlocks = [];
 
@@ -144,7 +144,7 @@ class CodexEditor
      *
      * @return bool
      */
-    public function validateBlocks()
+    private function validateBlocks()
     {
         foreach ($this->blocks as $block) {
             if (!$this->handler->validateBlock($block['type'], $block['data'])) {

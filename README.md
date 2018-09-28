@@ -21,26 +21,32 @@ use \CodexEditor\CodexEditor;
 
 this line allows you to get editors class that has the following method:
 
-`sanitize` - return array of sanitized blocks
-
-`validate` - check if blocks structure is valid
+`getBlocks` - return array of sanitized blocks
 
 # Basic usage
 
 You can get data from editor and send as param to editor's server validator like
 
 ```php
-$editor = new CodexEditor( $JSONData, $JSONConfigurationData );
-if ($editor->validate()) {
-    $cleanData = $editor->sanitize();
+try {
+    // Initialize Editor backend and validate structure
+    $editor = new CodexEditor( $data, $configuration );
+    
+    // Get sanitized blocks (according to the rules from configuration)
+    $blocks = $editor->getBlocks();
+    
+} catch (\CodexEditorException $e) {
+    // process exception
 }
 ```
 
-`$JSONData` — raw string JSON with data from CodeX Editor frontend.
+CodexEditor constructor has the following arguments:
 
-`$JSONConfigurationData` — JSON string with CodeX Editor tools configuration (see an example in the following paragraph).
+`$data` — JSON string with data from CodeX Editor frontend.
 
-`$cleanData` — array of block data objects which are ready to be recorded. 
+`$configuration` — JSON string with CodeX Editor tools configuration (see an example in the following paragraph).
+
+`$blocks` — array of sanitized data blocks. 
 
 # Configuration file
 
@@ -80,7 +86,7 @@ Where:
 
 `allowedTags` param should follow [HTMLPurifier](https://github.com/ezyang/htmlpurifier]) format.
 
-Another configuration example: [/tests/samples/test-config-allowed.json](/tests/samples/test-config-allowed.json)
+Another configuration example: [/tests/samples/test-config.json](/tests/samples/test-config.json)
 
 # Make Tools
 

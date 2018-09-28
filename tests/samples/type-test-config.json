@@ -1,0 +1,18 @@
+{
+  "tools": {
+    "test": {
+      "bool_test": {
+        "type": "boolean",
+        "required": false
+      },
+      "int_test": {
+        "type": "integer",
+        "required": false
+      },
+      "string_test": {
+        "type": "string",
+        "required": false
+      }
+    }
+  }
+}

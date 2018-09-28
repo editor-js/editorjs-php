@@ -3,17 +3,17 @@
     "header": {
       "text": {
         "type": "string",
-        "required": true,
         "allowedTags": ""
       },
       "level": {
-        "type": "int"
+        "type": "int",
+        "canBeOnly": [2, 3, 4]
       }
     },
     "paragraph": {
       "text": {
         "type": "string",
-        "allowedTags": ""
+        "allowedTags": "i,b,u,a[href]"
       }
     },
     "list": {
@@ -26,7 +26,7 @@
         "data": {
           "-": {
             "type": "string",
-            "allowedTags": ""
+            "allowedTags": "i,b,u"
           }
         }
       }
@@ -38,7 +38,7 @@
       "caption": {
         "type": "string"
       },
-      "alignment": {
+      "size": {
         "type": "string",
         "canBeOnly": ["left", "right"]
       }

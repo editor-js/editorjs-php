@@ -142,12 +142,15 @@ class BlockHandler
              */
             switch ($elementType) {
                 case 'string':
+                    if (!is_string($value)) {
+                        throw new CodexEditorException("Option '$key' with value `$value` must be string");
+                    }
                     break;
 
                 case 'integer':
                 case 'int':
                     if (!is_integer($value)) {
-                        throw new CodexEditorException("`$value` is not an integer");
+                        throw new CodexEditorException("Option '$key' with value `$value` must be integer");
                     }
                     break;
 
@@ -157,7 +160,9 @@ class BlockHandler
 
                 case 'boolean':
                 case 'bool':
-                    $blockData[$key] = boolval($value);
+                    if (!is_bool($value)) {
+                        throw new CodexEditorException("Option '$key' with value `$value` must be boolean");
+                    }
                     break;
 
                 default:

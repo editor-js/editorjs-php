@@ -1,4 +1,5 @@
 <?php
+
 return PhpCsFixer\Config::create()
     ->setUsingCache(false)
     ->setRules([

@@ -46,8 +46,6 @@ CodexEditor constructor has the following arguments:
 
 `$configuration` — JSON string with CodeX Editor tools configuration (see an example in the following paragraph).
 
-`$blocks` — array of sanitized data blocks. 
-
 # Configuration file
 
 You can configure validation rules for different types of CodeX Editor tools (header, paragraph, list, quote and other).

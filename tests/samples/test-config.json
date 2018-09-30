@@ -1,0 +1,47 @@
+{
+  "tools": {
+    "header": {
+      "text": {
+        "type": "string",
+        "allowedTags": ""
+      },
+      "level": {
+        "type": "int",
+        "canBeOnly": [2, 3, 4]
+      }
+    },
+    "paragraph": {
+      "text": {
+        "type": "string",
+        "allowedTags": "i,b,u,a[href]"
+      }
+    },
+    "list": {
+      "style": {
+        "type": "string",
+        "canBeOnly": ["ordered", "numbered"]
+      },
+      "items": {
+        "type": "array",
+        "data": {
+          "-": {
+            "type": "string",
+            "allowedTags": "i,b,u"
+          }
+        }
+      }
+    },
+    "quote": {
+      "text": {
+        "type": "string"
+      },
+      "caption": {
+        "type": "string"
+      },
+      "size": {
+        "type": "string",
+        "canBeOnly": ["left", "right"]
+      }
+    }
+  }
+}

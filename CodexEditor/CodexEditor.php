@@ -2,19 +2,13 @@
 
 namespace CodexEditor;
 
-use \CodexEditor\Factory;
-
 /**
- * Class Structure
- * This class works with entry
- * Can :
- *  [] return an Array of decoded blocks after proccess
- *  [] return JSON encoded string
+ * Class CodexEditor
  *
  * @package CodexEditor
  */
-class CodexEditor {
-
+class CodexEditor
+{
     /**
      * @var array $blocks - blocks classes
      */
@@ -26,14 +20,34 @@ class CodexEditor {
     public $config;
 
     /**
-     * Splits JSON string to separate blocks
-     * @throws \Exception
+     * @var BlockHandler
      */
-    public function __construct($json, $config = null)
-    {
+    public $handler;
 
-        if (!isset($config)) {
-            $this->config = $config;
+    /**
+     * @var \HTMLPurifier_Config
+     */
+    public $sanitizer;
+
+    /**
+     * CodexEditor constructor.
+     * Splits JSON string to separate blocks
+     *
+     * @param string $json
+     * @param mixed  $configuration
+     *
+     * @throws CodexEditorException()
+     */
+    public function __construct($json, $configuration)
+    {
+        $this->initPurifier();
+        $this->handler = new BlockHandler($configuration, $this->sanitizer);
+
+        /**
+         * Check if json string is empty
+         */
+        if (empty($json)) {
+            throw new CodexEditorException('JSON is empty');
         }
 
         /**
@@ -41,108 +55,103 @@ class CodexEditor {
          */
         $data = json_decode($json, true);
 
+        /**
+         * Handle decoding JSON error
+         */
         if (json_last_error()) {
-            throw new \Exception('Wrong JSON format: ' . json_last_error_msg());
-        }
-
-        if ( is_null($data) ){
-            throw new \Exception('Input is null');
-        }
-
-        if ( count($data) === 0 ) {
-            throw new \Exception('Input array is empty');
+            throw new CodexEditorException('Wrong JSON format: ' . json_last_error_msg());
         }
 
         /**
-         * @todo Remove 'data', save 'items'
+         * Check if data is null
          */
-        if ( !isset($data['data']) && !isset($data['items']) ){
-            throw new \Exception('Data or items missed ');
+        if (is_null($data)) {
+            throw new CodexEditorException('Input is null');
         }
 
-        if ( count($data['data']) === 0 ) {
-            throw new \Exception('Input blocks are empty');
+        /**
+         * Count elements in data array
+         */
+        if (count($data) === 0) {
+            throw new CodexEditorException('Input array is empty');
         }
 
-        foreach ($data['data'] as $blockData) {
+        /**
+         * Check if blocks param is missing in data
+         */
+        if (!isset($data['blocks'])) {
+            throw new CodexEditorException('Field `blocks` is missing');
+        }
 
+
+        if (!is_array($data['blocks'])) {
+            throw new CodexEditorException('Blocks is not an array');
+        }
+
+        foreach ($data['blocks'] as $blockData) {
             if (is_array($blockData)) {
-
-                    array_push($this->blocks, Factory::getBlock($blockData, $config));
-
+                array_push($this->blocks, $blockData);
             } else {
-
-                throw new \Exception('Block' . $blockData['type'] . 'must be an Array');
-
+                throw new CodexEditorException('Block must be an Array');
             }
         }
 
+        /**
+         * Validate blocks structure
+         */
+        $this->validateBlocks();
     }
 
     /**
-     * Returns entry blocks as separate array element
+     * Initialize HTML Purifier with default settings
+     */
+    private function initPurifier()
+    {
+        $this->sanitizer = \HTMLPurifier_Config::createDefault();
+
+        $this->sanitizer->set('HTML.TargetBlank', true);
+        $this->sanitizer->set('URI.AllowedSchemes', ['http' => true, 'https' => true]);
+        $this->sanitizer->set('AutoFormat.RemoveEmpty', true);
+
+        if (!is_dir('/tmp/purifier')) {
+            mkdir('/tmp/purifier', 0777, true);
+        }
+
+        $this->sanitizer->set('Cache.SerializerPath', '/tmp/purifier');
+    }
+
+    /**
+     * Sanitize and return array of blocks according to the Handler's rules.
      *
      * @return array
      */
     public function getBlocks()
     {
-        $this->makeIndexes();
+        $sanitizedBlocks = [];
 
-        /**
-         * $callback {Function} Closure
-         */
-        $callback = function($block) {
-
-            if (!empty($block)) {
-                return $block->getData();
-            }
-
-        };
-
-        return array_map( $callback, $this->blocks);
-
-    }
-
-    /**
-     * Returns all blocks data
-     * @param Boolean $escapeHTML pass TRUE to escape HTML entities
-     * @return {String} - json string of blocks
-     */
-    public function getData($escapeHTML = false)
-    {
-        $this->makeIndexes();
-
-        $blocks = array();
-
-        foreach ($this->blocks as $block){
-            if (!empty($block)){
-                $blocks[] = $block->getData($escapeHTML);
+        foreach ($this->blocks as $block) {
+            $sanitizedBlock = $this->handler->sanitizeBlock($block['type'], $block['data']);
+            if (!empty($sanitizedBlock)) {
+                array_push($sanitizedBlocks, $sanitizedBlock);
             }
         }
 
-        return json_encode(array('data' => $blocks), JSON_UNESCAPED_UNICODE);
+        return $sanitizedBlocks;
     }
 
     /**
-     * Make indexed blocks
+     * Validate blocks structure according to the Handler's rules.
+     *
+     * @return bool
      */
-    protected function makeIndexes()
+    private function validateBlocks()
     {
-        $this->clearDirtyBlocks();
-        $this->blocks = array_combine(range(0, count($this->blocks)-1), array_values($this->blocks));
-    }
-
-    /**
-     * Clean NULL's
-     */
-    private function clearDirtyBlocks()
-    {
-        for($i = 0; $i < count($this->blocks); $i++) {
-
-            if (empty($this->blocks[$i])) {
-                unset($this->blocks[$i]);
+        foreach ($this->blocks as $block) {
+            if (!$this->handler->validateBlock($block['type'], $block['data'])) {
+                return false;
             }
         }
-    }
 
+        return true;
+    }
 }

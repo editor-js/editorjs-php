@@ -1,8 +1,8 @@
 <?php
 
-use CodexEditor\CodexEditor;
-use CodexEditor\CodexEditorException;
-use CodexEditor\ConfigLoader;
+use EditorJS\ConfigLoader;
+use EditorJS\EditorJS;
+use EditorJS\EditorJSException;
 
 /**
  * Class GeneralTest
@@ -26,34 +26,34 @@ class GeneralTest extends TestCase
 
     public function testValidData()
     {
-        new CodexEditor(GeneralTest::SAMPLE_VALID_DATA, $this->config);
+        new EditorJS(GeneralTest::SAMPLE_VALID_DATA, $this->config);
     }
 
     public function testNullInput()
     {
         $callable = function () {
-            new CodexEditor('', $this->config);
+            new EditorJS('', $this->config);
         };
 
-        $this->assertException($callable, CodexEditorException::class, null, 'JSON is empty');
+        $this->assertException($callable, EditorJSException::class, null, 'JSON is empty');
     }
 
     public function testEmptyArray()
     {
         $callable = function () {
-            new CodexEditor('{}', $this->config);
+            new EditorJS('{}', $this->config);
         };
 
-        $this->assertException($callable, CodexEditorException::class, null, 'Input array is empty');
+        $this->assertException($callable, EditorJSException::class, null, 'Input array is empty');
     }
 
     public function testWrongJson()
     {
         $callable = function () {
-            new CodexEditor('{[{', $this->config);
+            new EditorJS('{[{', $this->config);
         };
 
-        $this->assertException($callable, CodexEditorException::class, null, 'Wrong JSON format: Syntax error');
+        $this->assertException($callable, EditorJSException::class, null, 'Wrong JSON format: Syntax error');
     }
 
     public function testValidConfig()
@@ -64,36 +64,36 @@ class GeneralTest extends TestCase
     public function testItemsMissed()
     {
         $callable = function () {
-            new CodexEditor('{"s":""}', $this->config);
+            new EditorJS('{"s":""}', $this->config);
         };
 
-        $this->assertException($callable, CodexEditorException::class, null, 'Field `blocks` is missing');
+        $this->assertException($callable, EditorJSException::class, null, 'Field `blocks` is missing');
     }
 
     public function testUnicode()
     {
         $callable = function () {
-            new CodexEditor('{"s":"😀"}', $this->config);
+            new EditorJS('{"s":"😀"}', $this->config);
         };
 
-        $this->assertException($callable, CodexEditorException::class, null, 'Field `blocks` is missing');
+        $this->assertException($callable, EditorJSException::class, null, 'Field `blocks` is missing');
     }
 
     public function testInvalidBlock()
     {
         $callable = function () {
-            new CodexEditor('{"blocks":""}', $this->config);
+            new EditorJS('{"blocks":""}', $this->config);
         };
 
-        $this->assertException($callable, CodexEditorException::class, null, 'Blocks is not an array');
+        $this->assertException($callable, EditorJSException::class, null, 'Blocks is not an array');
     }
 
     public function testBlocksContent()
     {
         $callable = function () {
-            new CodexEditor('{"blocks":["",""]}', $this->config);
+            new EditorJS('{"blocks":["",""]}', $this->config);
         };
 
-        $this->assertException($callable, CodexEditorException::class, null, 'Block must be an Array');
+        $this->assertException($callable, EditorJSException::class, null, 'Block must be an Array');
     }
 }

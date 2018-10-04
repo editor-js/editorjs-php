@@ -1,7 +1,7 @@
-# Codex.Editor server validation sample
+# EditorJS PHP server validation
 
-This library allows you to use Codex.Editor server validation. 
-You can easily make your client plugins for Codex Editor and then 
+This library allows you to use EditorJS server validation. 
+You can easily make your client plugins for EditorJS and then 
 extend server Tool which will be able to clean dirty data or handle that.
 
 # Installation
@@ -16,7 +16,7 @@ composer require codex-team/codex.editor:dev-master
 Add this line at the top of your PHP script
 
 ```php
-use \CodexEditor\CodexEditor;
+use \EditorJS\EditorJS;
 ```
 
 this line allows you to get editors class that has the following method:
@@ -30,17 +30,17 @@ You can get data from editor and send as param to editor's server validator like
 ```php
 try {
     // Initialize Editor backend and validate structure
-    $editor = new CodexEditor( $data, $configuration );
+    $editor = new EditorJS( $data, $configuration );
     
     // Get sanitized blocks (according to the rules from configuration)
     $blocks = $editor->getBlocks();
     
-} catch (\CodexEditorException $e) {
+} catch (\EditorJSException $e) {
     // process exception
 }
 ```
 
-CodexEditor constructor has the following arguments:
+EditorJS constructor has the following arguments:
 
 `$data` — JSON string with data from CodeX Editor frontend.
 
@@ -72,7 +72,7 @@ Sample validation rule set:
 
 Where:
 
-`tools` — array of supported CodeX Editor tools.
+`tools` — array of supported EditorJS tools.
 
 `header` — defines `header` tool settings.
 
@@ -91,7 +91,7 @@ Another configuration example: [/tests/samples/test-config.json](/tests/samples/
 If you connect a new Tool on the frontend-side, then you should create a configuration rule for that Tool to validate it on server-side.
 
 ## Repository 
-<a href="https://github.com/codex-team/codex.editor.backend/">https://github.com/codex-team/codex.editor.backend/</a>
+<a href="https://github.com/codex-editor/editorjs.php/">https://github.com/codex-editor/editorjs.php/</a>
 
 
 ## About CodeX

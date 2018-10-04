@@ -1,11 +1,11 @@
 <?php
 
-namespace CodexEditor;
+namespace EditorJS;
 
 /**
  * Class ConfigLoader
  *
- * @package CodexEditor
+ * @package EditorJS
  */
 class ConfigLoader
 {
@@ -16,12 +16,12 @@ class ConfigLoader
      *
      * @param string $configuration – configuration data
      *
-     * @throws CodexEditorException
+     * @throws EditorJSException
      */
     public function __construct($configuration)
     {
         if (empty($configuration)) {
-            throw new CodexEditorException("Configuration data is empty");
+            throw new EditorJSException("Configuration data is empty");
         }
 
         $config = json_decode($configuration, true);
@@ -33,17 +33,17 @@ class ConfigLoader
      *
      * @param array $config
      *
-     * @throws CodexEditorException
+     * @throws EditorJSException
      */
     private function loadTools($config)
     {
         if (!isset($config['tools'])) {
-            throw new CodexEditorException('Tools not found in configuration');
+            throw new EditorJSException('Tools not found in configuration');
         }
 
         foreach ($config['tools'] as $toolName => $toolData) {
             if (isset($this->tools[$toolName])) {
-                throw new CodexEditorException("Duplicate tool $toolName in configuration");
+                throw new EditorJSException("Duplicate tool $toolName in configuration");
             }
 
             $this->tools[$toolName] = $this->loadTool($toolData);

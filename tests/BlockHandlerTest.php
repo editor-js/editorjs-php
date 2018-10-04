@@ -1,7 +1,7 @@
 <?php
 
-use CodexEditor\CodexEditor;
-use CodexEditor\CodexEditorException;
+use EditorJS\EditorJS;
+use EditorJS\EditorJSException;
 
 /**
  * Class BlockHandlerTest
@@ -28,14 +28,14 @@ class BlockHandlerTest extends TestCase
 
     public function testLoad()
     {
-        new CodexEditor(BlockHandlerTest::SAMPLE_VALID_DATA, $this->configuration);
+        new EditorJS(BlockHandlerTest::SAMPLE_VALID_DATA, $this->configuration);
     }
 
     public function testSanitizing()
     {
         $data = '{"blocks":[{"type":"header","data":{"text":"CodeX <b>Editor</b>", "level": 2}}]}';
 
-        $editor = new CodexEditor($data, $this->configuration);
+        $editor = new EditorJS($data, $this->configuration);
         $result = $editor->getBlocks();
 
         $this->assertEquals('CodeX Editor', $result[0]['data']['text']);
@@ -45,7 +45,7 @@ class BlockHandlerTest extends TestCase
     {
         $data = '{"blocks":[{"type":"paragraph","data":{"text":"<a>CodeX</a> <b>Editor</b> <a href=\"https://ifmo.su\">ifmo.su</a>"}}]}';
 
-        $editor = new CodexEditor($data, $this->configuration);
+        $editor = new EditorJS($data, $this->configuration);
         $result = $editor->getBlocks();
 
         $this->assertEquals('<a>CodeX</a> <b>Editor</b> <a href="https://ifmo.su" target="_blank" rel="noreferrer noopener">ifmo.su</a>', $result[0]['data']['text']);
@@ -54,9 +54,9 @@ class BlockHandlerTest extends TestCase
     public function testCanBeOnly()
     {
         $callable = function () {
-            new CodexEditor('{"blocks":[{"type":"header","data":{"text":"test","level":5}}]}', $this->configuration);
+            new EditorJS('{"blocks":[{"type":"header","data":{"text":"test","level":5}}]}', $this->configuration);
         };
 
-        $this->assertException($callable, CodexEditorException::class, null, 'Option \'level\' with value `5` has invalid value. Check canBeOnly param.');
+        $this->assertException($callable, EditorJSException::class, null, 'Option \'level\' with value `5` has invalid value. Check canBeOnly param.');
     }
 }

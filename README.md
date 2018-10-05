@@ -1,4 +1,4 @@
-# EditorJS PHP server validation
+# Editor.js PHP server validation
 
 This library allows you to use EditorJS server validation. 
 You can easily make your client plugins for EditorJS and then 
@@ -121,7 +121,7 @@ Another configuration example: [/tests/samples/test-config.json](/tests/samples/
 If you connect a new Tool on the frontend-side, then you should create a configuration rule for that Tool to validate it on server-side.
 
 ## Repository 
-<a href="https://github.com/codex-editor/editorjs.php/">https://github.com/codex-editor/editorjs.php/</a>
+<a href="https://github.com/codex-editor/editorjs-php/">https://github.com/codex-editor/editorjs-php/</a>
 
 
 ## About CodeX

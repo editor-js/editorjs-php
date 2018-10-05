@@ -1,7 +1,7 @@
 {
     "name": "codex-team/editor.js",
     "type": "library",
-    "description": "PHP backend to the CodeX Editor",
+    "description": "PHP backend implementation for the Editor.js",
     "license": "MIT",
     "version": "2.0.0",
     "authors": [

@@ -1,7 +1,6 @@
 # Editor.js PHP
 
-This library allows you to use EditorJS server validation. 
-You can manually extend EditorJS validation rules with new tools by modifying configuration file.
+Server-side implementation sample for the Editor.js. It contains data validation, HTML sanitization and converts output from Editor.js to the Block objects.
 
 # Installation
 
@@ -39,7 +38,7 @@ try {
 }
 ```
 
-EditorJS constructor has the following arguments:
+Editor.js constructor has the following arguments:
 
 `$data` — JSON string with data from CodeX Editor frontend.
 
@@ -47,7 +46,8 @@ EditorJS constructor has the following arguments:
 
 # Configuration file
 
-You can configure validation rules for different types of CodeX Editor tools (header, paragraph, list, quote and other).
+You can manually configure validation rules for different types of Editor.js tools (header, paragraph, list, quote and other).
+You can also extend configuration with new tools.
 
 Sample validation rule set:
 
@@ -71,7 +71,7 @@ Sample validation rule set:
 
 Where:
 
-`tools` — array of supported EditorJS tools.
+`tools` — array of supported Editor.js tools.
 
 `header` — defines `header` tool settings.
 

@@ -1,8 +1,7 @@
-# Editor.js PHP server validation
+# Editor.js PHP
 
 This library allows you to use EditorJS server validation. 
-You can easily make your client plugins for EditorJS and then 
-extend server Tool which will be able to clean dirty data or handle that.
+You can manually extend EditorJS validation rules with new tools by modifying configuration file.
 
 # Installation
 

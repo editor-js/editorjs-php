@@ -1,8 +1,6 @@
-# Codex.Editor server validation sample
+# Editor.js PHP
 
-This library allows you to use Codex.Editor server validation. 
-You can easily make your client plugins for Codex Editor and then 
-extend server Tool which will be able to clean dirty data or handle that.
+Server-side implementation sample for the Editor.js. It contains data validation, HTML sanitization and converts output from Editor.js to the Block objects.
 
 # Installation
 
@@ -16,7 +14,7 @@ composer require codex-team/codex.editor:dev-master
 Add this line at the top of your PHP script
 
 ```php
-use \CodexEditor\CodexEditor;
+use \EditorJS\EditorJS;
 ```
 
 this line allows you to get editors class that has the following method:
@@ -30,17 +28,17 @@ You can get data from editor and send as param to editor's server validator like
 ```php
 try {
     // Initialize Editor backend and validate structure
-    $editor = new CodexEditor( $data, $configuration );
+    $editor = new EditorJS( $data, $configuration );
     
     // Get sanitized blocks (according to the rules from configuration)
     $blocks = $editor->getBlocks();
     
-} catch (\CodexEditorException $e) {
+} catch (\EditorJSException $e) {
     // process exception
 }
 ```
 
-CodexEditor constructor has the following arguments:
+Editor.js constructor has the following arguments:
 
 `$data` — JSON string with data from CodeX Editor frontend.
 
@@ -48,7 +46,8 @@ CodexEditor constructor has the following arguments:
 
 # Configuration file
 
-You can configure validation rules for different types of CodeX Editor tools (header, paragraph, list, quote and other).
+You can manually configure validation rules for different types of Editor.js tools (header, paragraph, list, quote and other).
+You can also extend configuration with new tools.
 
 Sample validation rule set:
 
@@ -72,7 +71,7 @@ Sample validation rule set:
 
 Where:
 
-`tools` — array of supported CodeX Editor tools.
+`tools` — array of supported Editor.js tools.
 
 `header` — defines `header` tool settings.
 
@@ -86,12 +85,42 @@ Where:
 
 Another configuration example: [/tests/samples/test-config.json](/tests/samples/test-config.json)
 
+# Exceptions
+
+### EditorJS class
+| Exception text                | Cause
+| ----------------------------- | ------------------------------------------------
+| JSON is empty                 | EditorJS initiated with empty `$json` argument
+| Wrong JSON format: `error`    | `json_decode` failed during `$json` processing
+| Input is null                 | `json_decode` returned null `$data` object
+| Input array is empty          | `$data` is an empty array
+| Field \`blocks\` is missing   | `$data` doesn't contain 'blocks' key
+| Blocks is not an array        | `$data['blocks']` is not an array
+| Block must be an Array        | one element in `$data['blocks']` is not an array
+
+### BlockHandler class
+| Exception text        | Cause
+| --------------------- | -----------------------------------------------
+| Tool \`**TOOL_NAME**\` not found in the configuration         | Configuration file doesn't contain **TOOL_NAME** in `tools{}` dictionary
+| Not found required param \`**key**\`                          | **key** tool param exists in configuration but doesn't exist in input data. *(Params are always required by default unless `required: false` is set)*
+| Found extra param \`**key**\`                                 | Param **key** exists in input data but doesn't defined in configuration
+| Option \`**key**\` with value \`**value**\` has invalid value. Check canBeOnly param. | Parameter must have one of the values from **canBeOnly** array in tool configuration
+| Option \`**key**\` with value \`**value**\` must be **TYPE**  | Param must have type which is defined in tool configuration *(string, integer, boolean)*
+| Unhandled type \`**elementType**\`                            | Param type in configuration is invalid
+
+### ConfigLoader class
+| Exception text                | Cause
+| ----------------------------- | ------------------------------------------------
+| Configuration data is empty                       | EditorJS initiated with empty `$configuration` argument
+| Tools not found in configuration                  | Configuration file doesn't contain `tools` key
+| Duplicate tool \`**toolName**\` in configuration  | Configuration file has different tools with the same name
+
 # Make Tools
 
 If you connect a new Tool on the frontend-side, then you should create a configuration rule for that Tool to validate it on server-side.
 
 ## Repository 
-<a href="https://github.com/codex-team/codex.editor.backend/">https://github.com/codex-team/codex.editor.backend/</a>
+<a href="https://github.com/codex-editor/editorjs-php/">https://github.com/codex-editor/editorjs-php/</a>
 
 
 ## About CodeX

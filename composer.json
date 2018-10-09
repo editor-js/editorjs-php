@@ -1,7 +1,7 @@
 {
-    "name": "codex-team/codex.editor",
+    "name": "codex-team/editor.js",
     "type": "library",
-    "description": "Codex Editor server side example",
+    "description": "PHP backend implementation for the Editor.js",
     "license": "MIT",
     "version": "2.0.0",
     "authors": [
@@ -19,7 +19,7 @@
         "friendsofphp/php-cs-fixer": "^2.13"
     },
     "autoload": {
-        "psr-4": {"CodexEditor\\": "CodexEditor"}
+        "psr-4": {"EditorJS\\": "EditorJS"}
     },
     "scripts": {
         "test": "vendor/bin/phpunit",

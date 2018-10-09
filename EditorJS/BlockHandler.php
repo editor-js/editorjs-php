@@ -1,11 +1,11 @@
 <?php
 
-namespace CodexEditor;
+namespace EditorJS;
 
 /**
  * Class BlockHandler
  *
- * @package CodexEditor
+ * @package EditorJS
  */
 class BlockHandler
 {
@@ -30,7 +30,7 @@ class BlockHandler
      * @param \HTMLPurifier_Config $sanitizer
      * @param string               $configuration
      *
-     * @throws CodexEditorException
+     * @throws EditorJSException
      */
     public function __construct($configuration, $sanitizer)
     {
@@ -44,7 +44,7 @@ class BlockHandler
      * @param string $blockType
      * @param array  $blockData
      *
-     * @throws CodexEditorException
+     * @throws EditorJSException
      *
      * @return bool
      */
@@ -54,7 +54,7 @@ class BlockHandler
          * Default action for blocks that are not mentioned in a configuration
          */
         if (!array_key_exists($blockType, $this->rules->tools)) {
-            throw new CodexEditorException("Tool `$blockType` not found in the configuration");
+            throw new EditorJSException("Tool `$blockType` not found in the configuration");
         }
 
         $rule = $this->rules->tools[$blockType];
@@ -68,7 +68,7 @@ class BlockHandler
      * @param string $blockType
      * @param array  $blockData
      *
-     * @throws CodexEditorException
+     * @throws EditorJSException
      *
      * @return array|bool
      */
@@ -88,7 +88,7 @@ class BlockHandler
      * @param array $rules
      * @param array $blockData
      *
-     * @throws CodexEditorException
+     * @throws EditorJSException
      *
      * @return bool
      */
@@ -100,7 +100,7 @@ class BlockHandler
         foreach ($rules as $key => $value) {
             if (($key != BlockHandler::DEFAULT_ARRAY_KEY) && (isset($value['required']) ? $value['required'] : true)) {
                 if (!isset($blockData[$key])) {
-                    throw new CodexEditorException("Not found required param `$key`");
+                    throw new EditorJSException("Not found required param `$key`");
                 }
             }
         }
@@ -110,7 +110,7 @@ class BlockHandler
          */
         foreach ($blockData as $key => $value) {
             if (!is_integer($key) && !isset($rules[$key])) {
-                throw new CodexEditorException("Found extra param `$key`");
+                throw new EditorJSException("Found extra param `$key`");
             }
         }
 
@@ -133,7 +133,7 @@ class BlockHandler
              */
             if (isset($rule['canBeOnly'])) {
                 if (!in_array($value, $rule['canBeOnly'])) {
-                    throw new CodexEditorException("Option '$key' with value `$value` has invalid value. Check canBeOnly param.");
+                    throw new EditorJSException("Option '$key' with value `$value` has invalid value. Check canBeOnly param.");
                 }
             }
 
@@ -143,14 +143,14 @@ class BlockHandler
             switch ($elementType) {
                 case 'string':
                     if (!is_string($value)) {
-                        throw new CodexEditorException("Option '$key' with value `$value` must be string");
+                        throw new EditorJSException("Option '$key' with value `$value` must be string");
                     }
                     break;
 
                 case 'integer':
                 case 'int':
                     if (!is_integer($value)) {
-                        throw new CodexEditorException("Option '$key' with value `$value` must be integer");
+                        throw new EditorJSException("Option '$key' with value `$value` must be integer");
                     }
                     break;
 
@@ -161,12 +161,12 @@ class BlockHandler
                 case 'boolean':
                 case 'bool':
                     if (!is_bool($value)) {
-                        throw new CodexEditorException("Option '$key' with value `$value` must be boolean");
+                        throw new EditorJSException("Option '$key' with value `$value` must be boolean");
                     }
                     break;
 
                 default:
-                    throw new CodexEditorException("Unhandled type `$elementType`");
+                    throw new EditorJSException("Unhandled type `$elementType`");
             }
         }
 
@@ -179,7 +179,7 @@ class BlockHandler
      * @param array $rules
      * @param array $blockData
      *
-     * @throws CodexEditorException
+     * @throws EditorJSException
      *
      * @return array
      */

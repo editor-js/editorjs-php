@@ -1,13 +1,13 @@
 <?php
 
-namespace CodexEditor;
+namespace EditorJS;
 
 /**
- * Class CodexEditor
+ * Class EditorJS
  *
- * @package CodexEditor
+ * @package EditorJS
  */
-class CodexEditor
+class EditorJS
 {
     /**
      * @var array $blocks - blocks classes
@@ -30,13 +30,13 @@ class CodexEditor
     public $sanitizer;
 
     /**
-     * CodexEditor constructor.
+     * EditorJS constructor.
      * Splits JSON string to separate blocks
      *
      * @param string $json
      * @param mixed  $configuration
      *
-     * @throws CodexEditorException()
+     * @throws EditorJSException()
      */
     public function __construct($json, $configuration)
     {
@@ -47,7 +47,7 @@ class CodexEditor
          * Check if json string is empty
          */
         if (empty($json)) {
-            throw new CodexEditorException('JSON is empty');
+            throw new EditorJSException('JSON is empty');
         }
 
         /**
@@ -59,40 +59,40 @@ class CodexEditor
          * Handle decoding JSON error
          */
         if (json_last_error()) {
-            throw new CodexEditorException('Wrong JSON format: ' . json_last_error_msg());
+            throw new EditorJSException('Wrong JSON format: ' . json_last_error_msg());
         }
 
         /**
          * Check if data is null
          */
         if (is_null($data)) {
-            throw new CodexEditorException('Input is null');
+            throw new EditorJSException('Input is null');
         }
 
         /**
          * Count elements in data array
          */
         if (count($data) === 0) {
-            throw new CodexEditorException('Input array is empty');
+            throw new EditorJSException('Input array is empty');
         }
 
         /**
          * Check if blocks param is missing in data
          */
         if (!isset($data['blocks'])) {
-            throw new CodexEditorException('Field `blocks` is missing');
+            throw new EditorJSException('Field `blocks` is missing');
         }
 
 
         if (!is_array($data['blocks'])) {
-            throw new CodexEditorException('Blocks is not an array');
+            throw new EditorJSException('Blocks is not an array');
         }
 
         foreach ($data['blocks'] as $blockData) {
             if (is_array($blockData)) {
                 array_push($this->blocks, $blockData);
             } else {
-                throw new CodexEditorException('Block must be an Array');
+                throw new EditorJSException('Block must be an Array');
             }
         }
 

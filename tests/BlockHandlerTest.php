@@ -59,4 +59,16 @@ class BlockHandlerTest extends TestCase
 
         $this->assertException($callable, EditorJSException::class, null, 'Option \'level\' with value `5` has invalid value. Check canBeOnly param.');
     }
+
+    public function testListTool()
+    {
+        $data = '{"time":1539180803359,"blocks":[{"type":"list","data":{"style":"ordered","items":["first","second","third"]}}],"version":"2.1.1"}';
+        $editor = new EditorJS($data, $this->configuration);
+        $result = $editor->getBlocks();
+
+        $this->assertEquals(3, count($result[0]['data']['items']));
+        $this->assertEquals("first", $result[0]['data']['items'][0]);
+        $this->assertEquals("second", $result[0]['data']['items'][1]);
+        $this->assertEquals("third", $result[0]['data']['items'][2]);
+    }
 }

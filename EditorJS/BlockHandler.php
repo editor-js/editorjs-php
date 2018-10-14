@@ -189,7 +189,15 @@ class BlockHandler
          * Sanitize every key in data block
          */
         foreach ($blockData as $key => $value) {
-            $rule = $rules[$key];
+            /**
+             * PHP Array has integer keys
+             */
+            if (is_integer($key)) {
+                $rule = $rules[BlockHandler::DEFAULT_ARRAY_KEY];
+            } else {
+                $rule = $rules[$key];
+            }
+
             $elementType = $rule['type'];
 
             /**

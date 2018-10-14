@@ -215,6 +215,7 @@ class BlockHandler
                 $blockData[$key] = $this->sanitize($rule['data'], $value);
             }
         }
+
         return $blockData;
     }
 

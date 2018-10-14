@@ -71,15 +71,4 @@ class BlockHandlerTest extends TestCase
         $this->assertEquals("second", $result[0]['data']['items'][1]);
         $this->assertEquals("third", $result[0]['data']['items'][2]);
     }
-
-    public function testHtmlPurifier()
-    {
-        $data = '{"time":1539180803359,"blocks":[{"type":"header","data":{"text":"<b>t</b><i>e</i><u>st</u>","level":2}}, {"type":"quote","data":{"text":"<b>t</b><i>e</i><u>st</u>","caption":"", "alignment":"left"}}]}';
-        $editor = new EditorJS($data, $this->configuration);
-        $result = $editor->getBlocks();
-
-        $this->assertEquals(2, count($result));
-        $this->assertEquals('test', $result[0]['data']['text']);
-        $this->assertEquals('<b>t</b><i>e</i><u>st</u>', $result[1]['data']['text']);
-    }
 }

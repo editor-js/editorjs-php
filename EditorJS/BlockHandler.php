@@ -225,6 +225,13 @@ class BlockHandler
 
         $sanitizer->set('HTML.Allowed', $allowedTags);
 
+        /**
+         * Define custom HTML Definition for mark tool
+         */
+        if ($def = $sanitizer->maybeGetRawHTMLDefinition()) {
+            $def->addElement('mark', 'Inline', 'Inline', 'Common');
+        }
+
         $purifier = new \HTMLPurifier($sanitizer);
 
         return $purifier;
@@ -240,6 +247,7 @@ class BlockHandler
         $sanitizer->set('HTML.TargetBlank', true);
         $sanitizer->set('URI.AllowedSchemes', ['http' => true, 'https' => true]);
         $sanitizer->set('AutoFormat.RemoveEmpty', true);
+        $sanitizer->set('HTML.DefinitionID', 'html5-definitions');
 
         if (!is_dir('/tmp/purifier')) {
             mkdir('/tmp/purifier', 0777, true);

@@ -198,7 +198,7 @@ class BlockHandler
              */
             if ($elementType == 'string') {
                 $allowedTags = isset($rule['allowedTags']) ? $rule['allowedTags'] : '';
-                if ($allowedTags !== 'all') {
+                if ($allowedTags !== '*') {
                     $blockData[$key] = $this->getPurifier($allowedTags)->purify($value);
                 }
             }

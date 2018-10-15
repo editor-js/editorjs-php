@@ -1,0 +1,27 @@
+{
+  "tools": {
+    "header": {
+      "text": {
+        "type": "string",
+        "allowedTags": "mark"
+      },
+      "level": {
+        "type": "int",
+        "canBeOnly": [2, 3, 4]
+      }
+    },
+    "quote": {
+      "text": {
+        "type": "string",
+        "allowedTags": "i,b,u"
+      },
+      "caption": {
+        "type": "string"
+      },
+      "alignment": {
+        "type": "string",
+        "canBeOnly": ["left", "right"]
+      }
+    }
+  }
+}

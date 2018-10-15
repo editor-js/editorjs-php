@@ -20,22 +20,15 @@ class BlockHandler
     private $rules = null;
 
     /**
-     * @var \HTMLPurifier_Config
-     */
-    private $sanitizer;
-
-    /**
      * BlockHandler constructor
      *
-     * @param \HTMLPurifier_Config $sanitizer
-     * @param string               $configuration
+     * @param string $configuration
      *
      * @throws EditorJSException
      */
-    public function __construct($configuration, $sanitizer)
+    public function __construct($configuration)
     {
         $this->rules = new ConfigLoader($configuration);
-        $this->sanitizer = $sanitizer;
     }
 
     /**
@@ -228,11 +221,40 @@ class BlockHandler
      */
     private function getPurifier($allowedTags)
     {
-        $sanitizer = clone $this->sanitizer;
+        $sanitizer = $this->getDefaultPurifier();
+
         $sanitizer->set('HTML.Allowed', $allowedTags);
+
+        /**
+         * Define custom HTML Definition for mark tool
+         */
+        if ($def = $sanitizer->maybeGetRawHTMLDefinition()) {
+            $def->addElement('mark', 'Inline', 'Inline', 'Common');
+        }
 
         $purifier = new \HTMLPurifier($sanitizer);
 
         return $purifier;
+    }
+
+    /**
+     * Initialize HTML Purifier with default settings
+     */
+    private function getDefaultPurifier()
+    {
+        $sanitizer = \HTMLPurifier_Config::createDefault();
+
+        $sanitizer->set('HTML.TargetBlank', true);
+        $sanitizer->set('URI.AllowedSchemes', ['http' => true, 'https' => true]);
+        $sanitizer->set('AutoFormat.RemoveEmpty', true);
+        $sanitizer->set('HTML.DefinitionID', 'html5-definitions');
+
+        if (!is_dir('/tmp/purifier')) {
+            mkdir('/tmp/purifier', 0777, true);
+        }
+
+        $sanitizer->set('Cache.SerializerPath', '/tmp/purifier');
+
+        return $sanitizer;
     }
 }

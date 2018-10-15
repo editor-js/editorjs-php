@@ -33,12 +33,13 @@
     },
     "quote": {
       "text": {
-        "type": "string"
+        "type": "string",
+        "allowedTags": "i,b,u"
       },
       "caption": {
         "type": "string"
       },
-      "size": {
+      "alignment": {
         "type": "string",
         "canBeOnly": ["left", "right"]
       }

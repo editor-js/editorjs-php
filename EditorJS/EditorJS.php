@@ -25,11 +25,6 @@ class EditorJS
     public $handler;
 
     /**
-     * @var \HTMLPurifier_Config
-     */
-    public $sanitizer;
-
-    /**
      * EditorJS constructor.
      * Splits JSON string to separate blocks
      *
@@ -40,8 +35,7 @@ class EditorJS
      */
     public function __construct($json, $configuration)
     {
-        $this->initPurifier();
-        $this->handler = new BlockHandler($configuration, $this->sanitizer);
+        $this->handler = new BlockHandler($configuration);
 
         /**
          * Check if json string is empty
@@ -100,24 +94,6 @@ class EditorJS
          * Validate blocks structure
          */
         $this->validateBlocks();
-    }
-
-    /**
-     * Initialize HTML Purifier with default settings
-     */
-    private function initPurifier()
-    {
-        $this->sanitizer = \HTMLPurifier_Config::createDefault();
-
-        $this->sanitizer->set('HTML.TargetBlank', true);
-        $this->sanitizer->set('URI.AllowedSchemes', ['http' => true, 'https' => true]);
-        $this->sanitizer->set('AutoFormat.RemoveEmpty', true);
-
-        if (!is_dir('/tmp/purifier')) {
-            mkdir('/tmp/purifier', 0777, true);
-        }
-
-        $this->sanitizer->set('Cache.SerializerPath', '/tmp/purifier');
     }
 
     /**

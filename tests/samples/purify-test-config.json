@@ -22,6 +22,12 @@
         "type": "string",
         "canBeOnly": ["left", "right"]
       }
+    },
+    "raw": {
+      "html": {
+        "type": "string",
+        "allowedTags": "all"
+      }
     }
   }
 }

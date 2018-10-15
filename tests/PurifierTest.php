@@ -43,4 +43,13 @@ class PurifierTest extends TestCase
 
         $this->assertEquals('t<mark>e</mark>st', $result[0]['data']['text']);
     }
+
+    public function testAllTagsPurifier()
+    {
+        $data = '{"time":1539180803359,"blocks":[{"type":"raw","data":{"html": "<div style=\"background: #000; color: #fff; font-size: 30px; padding: 50px;\">Any HTML code</div>"}}]}';
+        $editor = new EditorJS($data, $this->configuration);
+        $result = $editor->getBlocks();
+
+        $this->assertEquals('<div style="background: #000; color: #fff; font-size: 30px; padding: 50px;">Any HTML code</div>', $result[0]['data']['html']);
+    }
 }

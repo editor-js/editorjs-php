@@ -19,7 +19,7 @@
     "list": {
       "style": {
         "type": "string",
-        "canBeOnly": ["ordered", "numbered"]
+        "canBeOnly": ["ordered", "unordered"]
       },
       "items": {
         "type": "array",
@@ -41,7 +41,33 @@
       },
       "alignment": {
         "type": "string",
-        "canBeOnly": ["left", "right"]
+        "canBeOnly": ["left", "center"]
+      }
+    },
+    "table": {
+      "header": {
+        "type": "array",
+        "data": {
+          "description": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          }
+        }
+      },
+      "rows": {
+        "type": "array",
+        "data": {
+          "-": {
+            "type": "array",
+            "data": {
+              "-": {
+                "type": "string"
+              }
+            }
+          }
+        }
       }
     }
   }

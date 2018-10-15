@@ -83,6 +83,108 @@ Where:
 
 `allowedTags` param should follow [HTMLPurifier](https://github.com/ezyang/htmlpurifier]) format.
 
+#### There are three common parameters for every block:
+
+1. `type` (**required**) — type of the block
+
+|value|description|
+|---|---|
+|`string`|field with string value|
+|`int`/`integer`|field with integer value|
+|`bool`/`boolean`|field with boolean value|
+|`array`|field with nested fields|
+
+2. `allowedTags` (optional) — HTML tags in string that won't be removed
+ 
+ |value|default|description|
+|---|---|---|
+|`empty`|yes|all tags will be removed|
+|`*`|no|all tags are allowed|
+
+Other values are allowed according to the  [HTMLPurifier](https://github.com/ezyang/htmlpurifier]) format.
+
+Example:
+```
+"paragraph": {
+    "text": {
+        "type": "string",
+        "allowedTags": "i,b,u,a[href]"
+    }
+}
+```
+
+3. `canBeOnly` (optional) — define set of allowed values
+
+Example:
+```
+"quote": {
+      "text": {
+        "type": "string"
+      },
+      "caption": {
+        "type": "string"
+      },
+      "alignment": {
+        "type": "string",
+        "canBeOnly": ["left", "center"]
+      }
+    }
+```
+
+### Nested tools
+
+Tools can contain nested values. It is possible with the `array` type.
+
+Let the JSON input be the following:
+```
+{
+    "blocks": [
+        "type": list,
+        "data": {
+            "items": [
+                "first", "second", "third"
+            ],
+            "style": {
+                "background-color": "red",
+                "font-color": "black"
+            }
+        }
+    ]
+}
+```
+
+We can define validation rules for this input in the config:
+```
+"list": {
+  "items": {
+    "type": "array",
+    "data": {
+      "-": {
+        "type": "string",
+        "allowedTags": "i,b,u"
+      }
+    }
+  },
+  "style": {
+      "type": "array",
+      "data": {
+        "background-color": {
+            "type": "string",
+            "canBeOnly": ["red", "blue", "green"]
+        },
+        "font-color": {
+            "type": "string",
+            "canBeOnly": ["black", "white"]
+        }
+      }
+  }
+}
+```
+
+where `data` is the container for values of the array and `-` is the special shortcut for values if the array is sequential.
+
+
+
 Another configuration example: [/tests/samples/test-config.json](/tests/samples/test-config.json)
 
 # Exceptions

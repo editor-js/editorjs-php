@@ -96,4 +96,21 @@ class GeneralTest extends TestCase
 
         $this->assertException($callable, EditorJSException::class, null, 'Block must be an Array');
     }
+
+    public function testNested()
+    {
+        $data = '{"blocks":[{"type":"table","data":{"header": {"description":"a table", "author": "codex"}, "rows": [["name", "age", "sex"],["Paul", "24", "male"],["Ann", "26", "female"]]}}]}';
+        $editor = new EditorJS($data, $this->config);
+        $result = $editor->getBlocks();
+
+        $valid_rows = [["name", "age", "sex"],["Paul", "24", "male"],["Ann", "26", "female"]];
+
+        $this->assertEquals('a table', $result[0]['data']['header']['description']);
+        $this->assertEquals('codex', $result[0]['data']['header']['author']);
+        $this->assertEquals(3, count($result[0]['data']['rows']));
+
+        $this->assertEquals('name', $result[0]['data']['rows'][0][0]);
+        $this->assertEquals('24', $result[0]['data']['rows'][1][1]);
+        $this->assertEquals('female', $result[0]['data']['rows'][2][2]);
+    }
 }

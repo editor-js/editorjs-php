@@ -43,6 +43,32 @@
         "type": "string",
         "canBeOnly": ["left", "center"]
       }
+    },
+    "table": {
+      "header": {
+        "type": "array",
+        "data": {
+          "description": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          }
+        }
+      },
+      "rows": {
+        "type": "array",
+        "data": {
+          "-": {
+            "type": "array",
+            "data": {
+              "-": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

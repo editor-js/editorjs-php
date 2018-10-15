@@ -19,7 +19,7 @@
     "list": {
       "style": {
         "type": "string",
-        "canBeOnly": ["ordered", "numbered"]
+        "canBeOnly": ["ordered", "unordered"]
       },
       "items": {
         "type": "array",
@@ -41,7 +41,7 @@
       },
       "alignment": {
         "type": "string",
-        "canBeOnly": ["left", "right"]
+        "canBeOnly": ["left", "center"]
       }
     }
   }

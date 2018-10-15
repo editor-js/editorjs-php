@@ -114,6 +114,7 @@ Example:
 ```
 
 3. `canBeOnly` (optional) — define set of allowed values
+
 Example:
 ```
 "quote": {
@@ -130,7 +131,7 @@ Example:
     }
 ```
 
-#### Nested tools
+### Nested tools
 
 Tools can contain nested values. It is possible with the `array` type.
 

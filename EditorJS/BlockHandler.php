@@ -296,7 +296,7 @@ class BlockHandler
     {
         if (is_string($rule)) {
             // 'blockName': 'string' – tool with string type and default settings
-            $expandedRule = ["type" => "string"];
+            $expandedRule = ["type" => $rule];
         } elseif (is_array($rule)) {
             if ($this->isAssoc($rule)) {
                 $expandedRule = $rule;

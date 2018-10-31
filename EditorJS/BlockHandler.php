@@ -119,6 +119,9 @@ class BlockHandler
             }
 
             $rule = $rules[$key];
+
+            $rule = $this->expandToolSettings($rule);
+
             $elementType = $rule['type'];
 
             /**
@@ -128,6 +131,9 @@ class BlockHandler
                 if (!in_array($value, $rule['canBeOnly'])) {
                     throw new EditorJSException("Option '$key' with value `$value` has invalid value. Check canBeOnly param.");
                 }
+
+                // Do not perform additional elements validation in any case
+                continue;
             }
 
             /**
@@ -191,6 +197,7 @@ class BlockHandler
                 $rule = $rules[$key];
             }
 
+            $rule = $this->expandToolSettings($rule);
             $elementType = $rule['type'];
 
             /**
@@ -258,5 +265,49 @@ class BlockHandler
         $sanitizer->set('Cache.SerializerPath', '/tmp/purifier');
 
         return $sanitizer;
+    }
+
+    /**
+     * Check whether the array is associative or sequential
+     *
+     * @param array $arr – array to check
+     *
+     * @return bool – true if the array is associative
+     */
+    private function isAssoc(array $arr)
+    {
+        if ([] === $arr) {
+            return false;
+        }
+
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
+
+    /**
+     * Expand shortified tool settings
+     *
+     * @param $rule – tool settings
+     *
+     * @throws EditorJSException
+     *
+     * @return array – expanded tool settings
+     */
+    private function expandToolSettings($rule)
+    {
+        if (is_string($rule)) {
+            // 'blockName': 'string' – tool with string type and default settings
+            $expandedRule = ["type" => "string"];
+        } elseif (is_array($rule)) {
+            if ($this->isAssoc($rule)) {
+                $expandedRule = $rule;
+            } else {
+                // 'blockName': [] – tool with canBeOnly and default settings
+                $expandedRule = ["type" => "string", "canBeOnly" => $rule];
+            }
+        } else {
+            throw new EditorJSException("Cannot determine element type of the rule `$rule`.");
+        }
+
+        return $expandedRule;
     }
 }

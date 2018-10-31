@@ -143,11 +143,42 @@ Tool settings can be a `string`. It defines tool's type with default settings.
 }
 ```
 
+It evaluates to:
+```json
+"header": {
+  "text": {
+    "type": "string",
+    "allowedTags": "",
+    "required": true
+  },
+  "level": {
+    "type": "int",
+    "allowedTags": "",
+    "required": true
+  }
+}
+```
+
 Tool settings can be an `array`. It defines set of allowed valus without sanitizing.
 ```json
 "quote": {
   "alignment": ["left", "center"],
   "caption": "string"
+}
+```
+
+It evaluates to:
+```json
+"quote": {
+  "alignment": {
+    "type": "string",
+    "canBeOnly": ["left", "center"]
+  },
+  "caption": {
+      "type": "string",
+      "allowedTags": "",
+      "required": true
+    }
 }
 ```
 

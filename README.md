@@ -131,6 +131,59 @@ Example:
     }
 ```
 
+### Short settings syntax
+
+Some syntax sugar has been added.
+
+Tool settings can be a `string`. It defines tool's type with default settings.
+```json
+"header": {
+  "text": "string",
+  "level": "int"
+}
+```
+
+It evaluates to:
+```json
+"header": {
+  "text": {
+    "type": "string",
+    "allowedTags": "",
+    "required": true
+  },
+  "level": {
+    "type": "int",
+    "allowedTags": "",
+    "required": true
+  }
+}
+```
+
+Tool settings can be an `array`. It defines set of allowed valus without sanitizing.
+```json
+"quote": {
+  "alignment": ["left", "center"],
+  "caption": "string"
+}
+```
+
+It evaluates to:
+```json
+"quote": {
+  "alignment": {
+    "type": "string",
+    "canBeOnly": ["left", "center"]
+  },
+  "caption": {
+      "type": "string",
+      "allowedTags": "",
+      "required": true
+    }
+}
+```
+
+Another configuration example: [/tests/samples/syntax-sugar.json](/tests/samples/syntax-sugar.json)
+
 ### Nested tools
 
 Tools can contain nested values. It is possible with the `array` type.

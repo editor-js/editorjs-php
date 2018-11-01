@@ -1,0 +1,20 @@
+{
+  "tools": {
+    "header": {
+      "text": "string",
+      "level": [2, 3, 4]
+    },
+    "subtitle": {
+      "text": "string",
+      "level": "int"
+    },
+    "quote": {
+      "text": {
+        "type": "string",
+        "allowedTags": "i,b"
+      },
+      "caption": "string",
+      "alignment": ["left", "center"]
+    }
+  }
+}

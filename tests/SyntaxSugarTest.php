@@ -54,10 +54,20 @@ class SyntaxSugarTest extends TestCase
     public function testShortIntNotValid()
     {
         $callable = function () {
-            new EditorJS('{"blocks":[{"type":"subtitle","data":{"text": "string", "level": "string"}}]}', $this->configuration);
+            new EditorJS('{"blocks":[{"type":"subtitle","data":{"text": "test", "level": "string"}}]}', $this->configuration);
         };
 
         $this->assertException($callable, EditorJSException::class, null, 'Option \'level\' with value `string` must be integer');
+    }
+
+    public function testInvalidType()
+    {
+        $callable = function () {
+            $invalid_configuration = '{"tools": {"header": {"title": "invalid_type"}}}';
+            new EditorJS('{"blocks":[{"type":"header","data":{"title": "test"}}]}', $invalid_configuration);
+        };
+
+        $this->assertException($callable, EditorJSException::class, null, 'Unhandled type `invalid_type`');
     }
 
     public function testMixedStructure()

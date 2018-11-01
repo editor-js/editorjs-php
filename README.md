@@ -159,7 +159,7 @@ It evaluates to:
 }
 ```
 
-Tool settings can be an `array`. It defines set of allowed valus without sanitizing.
+Tool settings can be an `array`. It defines a set of allowed values without sanitizing.
 ```json
 "quote": {
   "alignment": ["left", "center"],

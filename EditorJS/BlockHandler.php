@@ -258,7 +258,7 @@ class BlockHandler
         $sanitizer->set('AutoFormat.RemoveEmpty', true);
         $sanitizer->set('HTML.DefinitionID', 'html5-definitions');
 
-        $cacheDirectory = sys_get_temp_dir(). DIRECTORY_SEPARATOR.'purifier';
+        $cacheDirectory = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'purifier';
         if (!is_dir($cacheDirectory)) {
             mkdir($cacheDirectory, 0777, true);
         }

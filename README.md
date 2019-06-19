@@ -81,7 +81,7 @@ Where:
 
 `level` is an **optional** *integer* that can be only 0, 1 or 2.
 
-`allowedTags` param should follow [HTMLPurifier](https://github.com/ezyang/htmlpurifier]) format.
+`allowedTags` param should follow [HTMLPurifier](https://github.com/ezyang/htmlpurifier) format.
 
 #### There are three common parameters for every block:
 

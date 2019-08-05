@@ -101,7 +101,7 @@ Where:
 |`empty`|yes|all tags will be removed|
 |`*`|no|all tags are allowed|
 
-Other values are allowed according to the  [HTMLPurifier](https://github.com/ezyang/htmlpurifier]) format.
+Other values are allowed according to the  [HTMLPurifier](https://github.com/ezyang/htmlpurifier) format.
 
 Example:
 ```

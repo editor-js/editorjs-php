@@ -1,0 +1,10 @@
+{
+  "tools": {
+    "test": {
+      "string_test": {
+        "type": "string",
+        "required": true
+      }
+    }
+  }
+}

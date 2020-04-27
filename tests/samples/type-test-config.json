@@ -7,11 +7,13 @@
       },
       "int_test": {
         "type": "integer",
-        "required": false
+        "required": false,
+        "allow_null": true
       },
       "string_test": {
         "type": "string",
-        "required": false
+        "required": false,
+        "allow_null": false
       }
     }
   }

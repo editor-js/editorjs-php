@@ -139,7 +139,8 @@ class BlockHandler
             /**
              * Do not check element type if it is not required and null
              */
-            if (isset($rule['required']) && $rule['required'] === false && $value === null) {
+            if (isset($rule['required']) && $rule['required'] === false &&
+                isset($rule['allow_null']) && $rule['allow_null'] === true && $value === null) {
                 continue;
             }
 

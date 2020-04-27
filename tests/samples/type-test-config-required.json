@@ -3,7 +3,8 @@
     "test": {
       "string_test": {
         "type": "string",
-        "required": true
+        "required": true,
+        "allow_null": true
       }
     }
   }

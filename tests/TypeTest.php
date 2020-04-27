@@ -68,9 +68,18 @@ class TypeTest extends TestCase
         $this->assertException($callable, EditorJSException::class, null, 'Option \'string_test\' with value `17` must be string');
     }
 
-    public function testNullNotRequired()
+    public function testAllowedNullNotRequired()
     {
-        new EditorJS('{"blocks":[{"type":"test","data":{"string_test": null}}]}', $this->configuration);
+        new EditorJS('{"blocks":[{"type":"test","data":{"int_test": null}}]}', $this->configuration);
+    }
+
+    public function testDisallowedNullNotRequired()
+    {
+        $callable = function () {
+            new EditorJS('{"blocks":[{"type":"test","data":{"string_test": null}}]}', $this->configuration);
+        };
+
+        $this->assertException($callable, EditorJSException::class, null, 'string_test\' with value `` must be string');
     }
 
     public function testNullRequired()

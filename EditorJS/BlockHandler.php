@@ -254,7 +254,7 @@ class BlockHandler
         $sanitizer = \HTMLPurifier_Config::createDefault();
 
         $sanitizer->set('HTML.TargetBlank', true);
-        $sanitizer->set('URI.AllowedSchemes', ['http' => true, 'https' => true]);
+        $sanitizer->set('URI.AllowedSchemes', ['http' => true, 'https' => true, 'mailto' => true, 'tel' => true]);
         $sanitizer->set('AutoFormat.RemoveEmpty', true);
         $sanitizer->set('HTML.DefinitionID', 'html5-definitions');
 

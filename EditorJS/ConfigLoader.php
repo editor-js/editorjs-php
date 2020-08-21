@@ -46,7 +46,7 @@ class ConfigLoader
                 throw new EditorJSException("Duplicate tool $toolName in configuration");
             }
 
-            $this->tools[$toolName] = $this->loadTool($toolData);
+            $this->tools[$toolName] = $this->loadTool($toolData, $toolName);
         }
     }
 
@@ -54,11 +54,28 @@ class ConfigLoader
      * Load settings for tool
      *
      * @param array $data
-     *
+     * @param string $toolName
      * @return array
      */
-    private function loadTool($data)
+    private function loadTool($data, $toolName)
     {
+        if(isset($data["class"])) unset($data["class"]);
+        if(isset($data["inlineToolbar"])) unset($data["inlineToolbar"]);
+        if(isset($data["shortcut"])) unset($data["shortcut"]);
+
+        if($toolName== "header") {
+             if(isset($data["config"])){
+                 if(isset($data["config"]["levels"])){
+                      $data["level"]= array(
+                          "type" => "int",
+                          "canBeOnly" => $data["config"]["levels"]
+                      );
+                 }
+             } 
+        }
+
+        if(isset($data["config"])) unset($data["config"]);
+       
         return $data;
     }
 }

@@ -92,7 +92,7 @@ class BlockHandler
          */
         foreach ($rules as $key => $value) {
             if (($key != BlockHandler::DEFAULT_ARRAY_KEY) && (isset($value['required']) ? $value['required'] : true)) {
-                if (!isset($blockData[$key])) {
+                if (!isset($blockData[$key])&&(($key!=="class")&&($key!=="inlineToolbar")&&($key!=="config")&&($key!=="shortcut"))) {
                     throw new EditorJSException("Not found required param `$key`");
                 }
             }

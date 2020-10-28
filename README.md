@@ -62,7 +62,7 @@ Sample validation rule set:
       },
       "level": {
         "type": "int",
-        "canBeOnly: [2, 3, 4]
+        "canBeOnly": [2, 3, 4]
       }
     }
   }

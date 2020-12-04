@@ -24,8 +24,7 @@ class ConfigLoader
             throw new EditorJSException("Configuration data is empty");
         }
 
-        $config = json_decode($configuration, true);
-        $this->loadTools($config);
+        $this->loadTools($configuration);
     }
 
     /**

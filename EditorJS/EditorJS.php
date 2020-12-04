@@ -47,7 +47,7 @@ class EditorJS
         /**
          * Check input data
          */
-        $data = json_decode($json, true);
+        $data = $json;
 
         /**
          * Handle decoding JSON error

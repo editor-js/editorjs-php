@@ -65,13 +65,14 @@ class BlockHandler
      *
      * @return array|bool
      */
-    public function sanitizeBlock($blockType, $blockData)
+    public function sanitizeBlock($blockType, $blockData, $blockTunes)
     {
         $rule = $this->rules->tools[$blockType];
 
         return [
             'type' => $blockType,
-            'data' => $this->sanitize($rule, $blockData)
+            'data' => $this->sanitize($rule, $blockData),
+            'tunes' => $blockTunes
         ];
     }
 

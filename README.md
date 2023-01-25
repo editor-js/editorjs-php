@@ -243,32 +243,32 @@ Another configuration example: [/tests/samples/test-config.json](/tests/samples/
 # Exceptions
 
 ### EditorJS class
-| Exception text                | Cause
-| ----------------------------- | ------------------------------------------------
-| JSON is empty                 | EditorJS initiated with empty `$json` argument
-| Wrong JSON format: `error`    | `json_decode` failed during `$json` processing
-| Input is null                 | `json_decode` returned null `$data` object
-| Input array is empty          | `$data` is an empty array
-| Field \`blocks\` is missing   | `$data` doesn't contain 'blocks' key
-| Blocks is not an array        | `$data['blocks']` is not an array
-| Block must be an Array        | one element in `$data['blocks']` is not an array
+| Exception text              | Cause                                            |
+|-----------------------------|--------------------------------------------------|
+| JSON is empty               | EditorJS initiated with empty `$json` argument   |
+| Wrong JSON format: `error`  | `json_decode` failed during `$json` processing   |
+| Input is null               | `json_decode` returned null `$data` object       |
+| Input array is empty        | `$data` is an empty array                        |
+| Field \`blocks\` is missing | `$data` doesn't contain 'blocks' key             |
+| Blocks is not an array      | `$data['blocks']` is not an array                |
+| Block must be an Array      | one element in `$data['blocks']` is not an array |
 
 ### BlockHandler class
-| Exception text        | Cause
-| --------------------- | -----------------------------------------------
-| Tool \`**TOOL_NAME**\` not found in the configuration         | Configuration file doesn't contain **TOOL_NAME** in `tools{}` dictionary
-| Not found required param \`**key**\`                          | **key** tool param exists in configuration but doesn't exist in input data. *(Params are always required by default unless `required: false` is set)*
-| Found extra param \`**key**\`                                 | Param **key** exists in input data but doesn't defined in configuration
-| Option \`**key**\` with value \`**value**\` has invalid value. Check canBeOnly param. | Parameter must have one of the values from **canBeOnly** array in tool configuration
-| Option \`**key**\` with value \`**value**\` must be **TYPE**  | Param must have type which is defined in tool configuration *(string, integer, boolean)*
-| Unhandled type \`**elementType**\`                            | Param type in configuration is invalid
+| Exception text                                                                        | Cause                                                                                                                                                 |
+|---------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Tool \`**TOOL_NAME**\` not found in the configuration                                 | Configuration file doesn't contain **TOOL_NAME** in `tools{}` dictionary                                                                              |
+| Not found required param \`**key**\`                                                  | **key** tool param exists in configuration but doesn't exist in input data. *(Params are always required by default unless `required: false` is set)* |
+| Found extra param \`**key**\`                                                         | Param **key** exists in input data but doesn't defined in configuration                                                                               |
+| Option \`**key**\` with value \`**value**\` has invalid value. Check canBeOnly param. | Parameter must have one of the values from **canBeOnly** array in tool configuration                                                                  |
+| Option \`**key**\` with value \`**value**\` must be **TYPE**                          | Param must have type which is defined in tool configuration *(string, integer, boolean)*                                                              |
+| Unhandled type \`**elementType**\`                                                    | Param type in configuration is invalid                                                                                                                |
 
 ### ConfigLoader class
-| Exception text                | Cause
-| ----------------------------- | ------------------------------------------------
-| Configuration data is empty                       | EditorJS initiated with empty `$configuration` argument
-| Tools not found in configuration                  | Configuration file doesn't contain `tools` key
-| Duplicate tool \`**toolName**\` in configuration  | Configuration file has different tools with the same name
+| Exception text                                   | Cause                                                     |
+|--------------------------------------------------|-----------------------------------------------------------|
+| Configuration data is empty                      | EditorJS initiated with empty `$configuration` argument   |
+| Tools not found in configuration                 | Configuration file doesn't contain `tools` key            |
+| Duplicate tool \`**toolName**\` in configuration | Configuration file has different tools with the same name |
 
 # Make Tools
 

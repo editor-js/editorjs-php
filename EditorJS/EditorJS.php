@@ -119,6 +119,30 @@ class EditorJS
         return $sanitizedBlocks;
     }
 
+    public function getFilteringBlocks($names = []) {
+       
+        $sanitizedBlocks = [];
+
+        foreach ($this->blocks as $block) {
+
+            if (in_array($block['type'], $names)) {
+
+                $sanitizedBlock = $this->handler->sanitizeBlock(
+                    $block['type'],
+                    $block['data'],
+                    $block["tunes"] ?? []
+                );
+
+                if (!empty($sanitizedBlock)) {
+                    array_push($sanitizedBlocks, $sanitizedBlock);
+                }            
+            }
+            
+        }
+
+        return $sanitizedBlocks;
+    }
+
     /**
      * Validate blocks structure according to the Handler's rules.
      *
